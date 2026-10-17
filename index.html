@@ -1,127 +1,325 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b0b0b">
-<meta name="description" content="Faris — AI explorer and web builder.">
-<meta property="og:title" content="FARIS — AI Explorer / Web Builder">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F5EF">
+<title>FARIS — Student, exploring what’s possible</title>
+<meta name="description" content="Faris — a student exploring ideas, AI, and the process of turning concepts into real projects.">
+<meta property="og:title" content="FARIS — Curious by nature. Building by experimenting.">
 <meta property="og:description" content="A living portfolio of experiments, projects, notes and things worth building.">
-<title>FARIS — AI Explorer / Web Builder</title>
+<meta property="og:type" content="website">
+<script>
+/* Runs before first paint: theme (light by default) + JS flag. */
+(function(){
+  var d=document.documentElement,t='light';
+  try{var s=localStorage.getItem('faris-theme-v2');if(s==='dark'||s==='light')t=s}catch(e){}
+  d.setAttribute('data-theme',t);
+  d.classList.add('js');
+  var m=document.querySelector('meta[name=theme-color]');
+  if(m)m.setAttribute('content',t==='dark'?'#121210':'#F7F5EF');
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=23">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=30">
 </head>
 <body>
-<div class="loader" id="loader"><div class="loader-mark">F<span>.</span></div><div class="loader-line"><i></i></div><div class="loader-meta"><span>INITIALISING FARIS.EXE</span><span>2026</span></div></div>
-<div class="grain"></div><div class="progress" id="progress"></div>
 
-<header class="topbar">
-<nav class="nav">
-<a class="logo" href="#top" data-sound>FARIS<span>.</span></a>
-<div class="navlinks" id="navlinks">
-<a href="#experience">EXPERIENCE</a><a href="#work">PROJECTS</a><a href="#skills">SKILLS</a><a href="#thoughts">BLOG</a><a href="#education">EDUCATION</a><a href="#contact">CONTACT</a>
-</div>
-<div class="navtools"><button id="soundToggle" class="round" aria-label="Toggle sound">◌</button><button id="themeToggle" class="round" aria-label="Toggle theme">☼</button><button id="menuBtn" class="round menu" aria-label="Open menu">☰</button></div>
-</nav>
+<!-- SVG icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M7 7l10 10M17 8v9H8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-sound-on" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.8L13 18.5v-13L7.8 9.5z"/><path d="M16.2 9.2a4 4 0 0 1 0 5.6M18.7 6.7a7.5 7.5 0 0 1 0 10.6"/></g></symbol>
+    <symbol id="i-sound-off" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.8L13 18.5v-13L7.8 9.5z"/><path d="m16.5 9.5 5 5M21.5 9.5l-5 5"/></g></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-term" viewBox="0 0 24 24"><path d="m5 7 5 5-5 5M12.5 18H19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2.1 6L20 11l-5.9 2.1L12 19l-2.1-5.9L4 11l5.9-2z" fill="currentColor"/></symbol>
+    <symbol id="i-gh" viewBox="0 0 24 24"><path d="M9 19c-4 .9-4-2-5-2m10 4v-3.9c0-1 .1-1.4-.5-2 2.1-.2 4.3-1 4.3-4.6 0-1-.4-1.9-1-2.6.1-.2.5-1.3-.1-2.6 0 0-.8-.3-2.7 1a9.3 9.3 0 0 0-5 0c-1.9-1.3-2.700-1-2.700-1-.6 1.300-.2 2.400-.1 2.600-.6.700-1 1.600-1 2.600 0 3.600 2.200 4.400 4.300 4.600-.4.400-.6 1-.6 2v3.900" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></g></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 5.500h18v13H3z"/><path d="m3 6.500 9 7 9-7"/></g></symbol>
+    <symbol id="i-in" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10.500V17M8 7.500v.01M12 17v-6.500M12 13c0-1.700 1-2.500 2.200-2.500S16.500 11.200 16.500 13v4"/></g></symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- ───────── Header ───────── -->
+<header class="topbar" id="topbar">
+  <nav class="nav" aria-label="Primary">
+    <a class="logo" href="#top" data-sound aria-label="Faris — back to top">FARIS<span>.</span></a>
+
+    <div class="navlinks" id="navlinks">
+      <a href="#experience">Experience</a>
+      <a href="#work">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#thoughts">Blog</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <div class="navtools">
+      <button id="terminalOpen" class="tool" type="button" aria-label="Open terminal" aria-haspopup="dialog"><svg><use href="#i-term"/></svg></button>
+      <button id="soundToggle" class="tool" type="button" aria-label="Sound effects" aria-pressed="false" title="Sound effects (off)"><svg class="ico-off"><use href="#i-sound-off"/></svg><svg class="ico-on"><use href="#i-sound-on"/></svg></button>
+      <button id="themeToggle" class="tool" type="button" aria-label="Switch to dark theme" title="Switch theme"><svg class="ico-sun"><use href="#i-sun"/></svg><svg class="ico-moon"><use href="#i-moon"/></svg></button>
+      <button id="menuBtn" class="tool menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><svg class="ico-open"><use href="#i-menu"/></svg><svg class="ico-shut"><use href="#i-close"/></svg></button>
+    </div>
+  </nav>
 </header>
 
-<main id="top">
-<section class="hero section">
-<div class="hero-left">
-<div class="kicker"><span class="dot"></span> ONLINE / LEARNING / BUILDING</div>
-<div class="hero-title-wrap"><span class="hero-index">01 / 08</span><h1>FARIS<span class="accent">.</span></h1></div>
-<p class="role">AI EXPLORER / WEB BUILDER<span>()</span></p>
-<div class="meta-grid">
-<div><small>[LOCATION]</small><strong>INDIA</strong></div>
-<div><small>[STATUS]</small><strong>DEGREE STUDENT</strong></div>
-<div><small>[MISSION]</small><strong>BUILD. LEARN. SHIP.</strong></div>
-</div>
-<p class="hero-bio" id="heroBio">A student exploring AI, technology and the web — learning by building and chasing ideas that feel worth making.</p>
-<div class="actions"><a class="btn solid" href="#work" data-sound>VIEW PROJECTS <b>↘</b></a><a class="under" href="#contact" data-sound>CONTACT ME ↗</a></div>
-<div class="socials">
-<a id="heroInstagram" href="https://www.instagram.com/farixhere/" target="_blank" rel="noopener" aria-label="Instagram" data-sound><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg> INSTAGRAM</a>
-<a id="heroGithub" href="https://github.com/dupekingsam-code" target="_blank" rel="noopener" aria-label="GitHub" data-sound><svg viewBox="0 0 24 24"><path d="M9 19c-4 .9-4-2-5-2m10 4v-3.9c0-1 .1-1.4-.5-2 2.1-.2 4.3-1 4.3-4.6 0-1-.4-1.9-1-2.6.1-.2.5-1.3-.1-2.6 0 0-.8-.3-2.7 1a9.3 9.3 0 0 0-5 0c-1.9-1.3-2.7-1-2.7-1-.6 1.3-.2 2.4-.1 2.6-.6.7-1 1.6-1 2.6 0 3.6 2.2 4.4 4.3 4.6-.4.4-.6 1-.6 2v3.9"/></svg> GITHUB</a>
-<a id="heroLinkedin" href="#" aria-label="LinkedIn" data-sound><b>in</b> LINKEDIN</a>
-<a id="heroEmail" href="mailto:farisdomain@gmail.com" aria-label="Email" data-sound><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 6 9 7 9-7"/></svg> EMAIL</a>
-</div>
-</div>
-<div class="hero-right">
-<div class="command-terminal" id="commandTerminal" tabindex="0">
-  <div class="terminal-windowbar">
-    <span class="terminal-dots"><i></i><i></i><i></i></span>
-    <span>faris@portfolio:~$</span>
-    <span>TERMINAL / ONLINE</span>
+<main id="main">
+<!-- ───────── Hero ───────── -->
+<section class="hero" id="top" aria-labelledby="heroTitle">
+  <div class="hero-copy">
+    <p class="status rise" style="--d:0"><span class="pulse" aria-hidden="true"></span>Student · Exploring what’s possible</p>
+    <h1 id="heroTitle" class="display rise" style="--d:1">
+      <span class="ln">Curious <em>by nature.</em></span>
+      <span class="ln">Building by <span class="scribble">experimenting.</span></span>
+    </h1>
+    <p class="intro rise" style="--d:2">I’m Faris — a student exploring ideas, AI, and the process of turning concepts into real projects.</p>
+    <div class="cta rise" style="--d:3">
+      <a class="btn btn-primary" href="#work" data-sound>Explore my work <svg><use href="#i-down"/></svg></a>
+      <a class="btn btn-ghost" href="#about" data-sound>More about me</a>
+    </div>
+    <dl class="facts rise" style="--d:4">
+      <div><dt>Location</dt><dd>India</dd></div>
+      <div><dt>Status</dt><dd>Student</dd></div>
+      <div><dt>Studying</dt><dd>BA Sociology</dd></div>
+    </dl>
+    <ul class="socials rise" style="--d:5" aria-label="Find me elsewhere">
+      <li><a id="heroInstagram" href="https://www.instagram.com/farixhere/" target="_blank" rel="noopener noreferrer" data-sound><svg><use href="#i-ig"/></svg>Instagram</a></li>
+      <li><a id="heroGithub" href="https://github.com/dupekingsam-code" target="_blank" rel="noopener noreferrer" data-sound><svg><use href="#i-gh"/></svg>GitHub</a></li>
+      <li id="heroLinkedinItem" hidden><a id="heroLinkedin" href="#" target="_blank" rel="noopener noreferrer" data-sound><svg><use href="#i-in"/></svg>LinkedIn</a></li>
+      <li><a id="heroEmail" href="mailto:farisdomain@gmail.com" data-sound><svg><use href="#i-mail"/></svg>Email</a></li>
+    </ul>
   </div>
-  <div class="terminal-console" id="terminalConsole" aria-live="polite">
-    <div class="term-line term-info">Welcome to faris.terminal v1.0.0</div>
-    <div class="term-line term-info">Type <b>"help"</b> to see available commands.</div>
-    <div class="term-gap"></div>
-    <div class="terminal-input-row" id="terminalInputRow">
-      <label for="terminalInput">guest@faris:~$</label>
-      <input id="terminalInput" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command" placeholder="type a command…" />
+
+  <!-- Interactive playground (decorative) -->
+  <div class="hero-stage rise" style="--d:2">
+    <div class="stage" id="stage">
+      <div class="layer l-dots" aria-hidden="true"></div>
+
+      <div class="layer l-disc" style="--dx:10" aria-hidden="true"><i></i></div>
+
+      <div class="layer l-arch" style="--dx:-16" aria-hidden="true"></div>
+
+      <div class="layer l-orbit" style="--dx:22" aria-hidden="true">
+        <svg viewBox="0 0 400 400" focusable="false">
+          <circle cx="200" cy="200" r="168" fill="none" stroke="var(--cobalt)" stroke-width="1.5"/>
+          <ellipse cx="200" cy="200" rx="168" ry="74" fill="none" stroke="var(--cobalt)" stroke-width="1.5" stroke-dasharray="1 7" stroke-linecap="round" transform="rotate(-28 200 200)"/>
+          <circle cx="368" cy="200" r="4.5" fill="var(--cobalt)"/>
+          <circle cx="32" cy="200" r="3" fill="var(--cobalt)" opacity=".6"/>
+        </svg>
+      </div>
+
+      <div class="layer l-spin" style="--dx:34">
+        <div class="spin"><button class="sphere" id="sphere" type="button" aria-label="Boop the apricot sphere"></button></div>
+      </div>
+
+      <figure class="layer l-photo" id="heroPhoto" style="--dx:-26" hidden>
+        <img id="heroPhotoImg" alt="Portrait of Faris" width="120" height="138" decoding="async" referrerpolicy="no-referrer">
+        <figcaption>Me, mid-experiment</figcaption>
+      </figure>
+
+      <p class="stage-hint" aria-hidden="true"><span>Playground</span><span>Move · touch · boop <b id="boopCount">0</b></span></p>
     </div>
   </div>
-  <div class="terminal-status"><span>● ONLINE</span><span>TYPE HELP</span></div>
-</div>
-<div class="side-note">TRY / HELP<br>THEN EXPLORE ↘</div>
-</div>
 </section>
 
-<section class="manifesto section" id="experience">
-<div class="section-top"><span>02 / EXPERIENCE</span><span>THE WAY I WORK</span></div>
-<div class="manifesto-grid">
-<h2>I don't have<br>everything figured <em>out.</em></h2>
-<div><p class="lead">That's kind of the point. I'm learning by making things, breaking things, fixing them and trying again.</p><div class="principles"><article><b>01</b><strong>EXPLORE</strong><span>Follow the questions that won't leave me alone.</span></article><article><b>02</b><strong>BUILD</strong><span>Turn ideas into something you can actually use.</span></article><article><b>03</b><strong>SHIP</strong><span>Stop polishing forever. Put the thing out there.</span></article></div></div>
-</div>
+<!-- ───────── Experience ───────── -->
+<section class="section" id="experience" aria-labelledby="expTitle">
+  <header class="sec-head reveal"><span><b>01</b> — Experience</span><span>The way I work</span></header>
+
+  <div class="exp-grid">
+    <h2 id="expTitle" class="reveal">I don’t have everything figured <em>out.</em></h2>
+    <div class="exp-copy reveal" id="about">
+      <p class="lead">That’s kind of the point. I’m learning by making things, breaking things, fixing them and trying again.</p>
+      <p class="about-bio" id="aboutBio">A student exploring AI, technology, and whatever interesting thing comes next.</p>
+    </div>
+  </div>
+
+  <ol class="principles">
+    <li class="reveal"><b>01</b><h3>Explore</h3><p>Follow the questions that won’t leave me alone.</p></li>
+    <li class="reveal"><b>02</b><h3>Build</h3><p>Turn ideas into something you can actually use.</p></li>
+    <li class="reveal"><b>03</b><h3>Ship</h3><p>Stop polishing forever. Put the thing out there.</p></li>
+  </ol>
+
+  <div class="now" id="now">
+    <div class="now-head reveal"><h3>Right now<span>.</span></h3><p class="live"><i aria-hidden="true"></i>Updated live</p></div>
+    <ol class="now-list" id="experimentsList"><li class="skeleton">Loading what I’m up to…</li></ol>
+  </div>
 </section>
 
-<section class="skills section" id="skills">
-<div class="section-top"><span>03 / SKILLS</span><span>CURRENT STACK</span></div>
-<div class="headline"><h2>Tools I'm <em>learning.</em></h2><span class="live">● LIVE FROM DATABASE</span></div>
-<div class="skill-grid" id="skillsGrid"><div class="skeleton">LOADING STACK…</div></div>
+<!-- ───────── Projects ───────── -->
+<section class="section" id="work" aria-labelledby="workTitle">
+  <header class="sec-head reveal"><span><b>02</b> — Projects</span><span>Selected work</span></header>
+  <div class="headline reveal">
+    <h2 id="workTitle">Things worth <em>building.</em></h2>
+    <div class="filters" id="projectFilters" role="group" aria-label="Filter projects by category"><button type="button" class="active" data-f="all" aria-pressed="true">All</button></div>
+  </div>
+  <p class="sr-only" id="projectCount" aria-live="polite"></p>
+  <div class="project-grid" id="projectGrid"><div class="skeleton">Loading projects…</div></div>
 </section>
 
-<section class="now section" id="now">
-<div class="section-top"><span>04 / NOW</span><span>WHAT'S HAPPENING</span></div>
-<div class="headline"><h2>Currently <em>building.</em></h2><span class="live">● UPDATED LIVE</span></div>
-<div class="now-list" id="experimentsList"><div class="skeleton">LOADING CURRENT EXPERIMENTS…</div></div>
+<!-- ───────── Skills ───────── -->
+<section class="section" id="skills" aria-labelledby="skillsTitle">
+  <header class="sec-head reveal"><span><b>03</b> — Skills</span><span>Current toolbox</span></header>
+  <div class="skills-layout">
+    <div class="skills-intro reveal">
+      <h2 id="skillsTitle">Tools I’m <em>learning.</em></h2>
+      <p class="honest"><b>Honest note —</b> I’m a beginner coder. I build with AI tools as a collaborator and learn from everything they help me make.</p>
+      <p class="live"><i aria-hidden="true"></i>Live from the dashboard</p>
+    </div>
+    <div class="skill-groups" id="skillsGrid"><div class="skeleton">Loading toolbox…</div></div>
+  </div>
 </section>
 
-<section class="work section" id="work">
-<div class="section-top"><span>05 / PROJECTS</span><span>SELECTED WORK</span></div>
-<div class="headline"><h2>Things worth <em>shipping.</em></h2><div class="filters" id="projectFilters"><button class="active" data-filter="all">ALL</button></div></div>
-<div class="project-grid" id="projectGrid"><div class="empty-state"><span>NO PROJECTS YET</span><h3>The first build is coming.</h3><p>Projects can be added and updated from the private dashboard without touching the website code.</p></div></div>
+<!-- ───────── Blog ───────── -->
+<section class="section" id="thoughts" aria-labelledby="blogTitle">
+  <header class="sec-head reveal"><span><b>04</b> — Blog</span><span>Notes from the process</span></header>
+  <div class="headline reveal"><h2 id="blogTitle">Thinking <em>out loud.</em></h2></div>
+  <div class="post-grid" id="postGrid">
+    <div class="blank-page reveal"><span>No notes yet</span><p>Nothing published yet. When the first note goes live, it will land right here.</p></div>
+  </div>
 </section>
 
-<section class="thoughts section" id="thoughts">
-<div class="section-top"><span>06 / BLOG</span><span>NOTES FROM THE PROCESS</span></div>
-<div class="headline"><h2>Thinking <em>out loud.</em></h2><span class="live">● PUBLISHED NOTES</span></div>
-<div class="post-grid" id="postGrid"><div class="empty-state"><span>NO NOTES YET</span><h3>Something is being written.</h3><p>The blog is ready for its first idea.</p></div></div>
+<!-- ───────── Education ───────── -->
+<section class="section" id="education" aria-labelledby="eduTitle">
+  <header class="sec-head reveal"><span><b>05</b> — Education</span><span>Where I’m learning</span></header>
+  <div class="edu reveal">
+    <div class="edu-main">
+      <p class="label">Currently</p>
+      <h2 id="eduTitle">BA <em>Sociology.</em></h2>
+      <p>Studying people and society, alongside my curiosity about AI and building things.</p>
+    </div>
+    <dl class="edu-facts">
+      <div><dt>Degree</dt><dd>BA Sociology</dd></div>
+      <div><dt>Year</dt><dd>Second year</dd></div>
+      <div><dt>University</dt><dd>Pondicherry University</dd></div>
+      <div><dt>Outside class</dt><dd>AI · web · learning by building</dd></div>
+    </dl>
+  </div>
 </section>
 
-<section class="education section" id="education">
-<div class="section-top"><span>07 / EDUCATION</span><span>JOURNEY</span></div>
-<div class="edu-card"><div class="edu-big">LEARN<br><em>MORE.</em></div><div class="edu-info"><span class="label">CURRENTLY</span><h2>Degree Student</h2><p>Learning beyond the classroom while exploring AI, web development and technology.</p><div class="edu-row"><span>UNIVERSITY</span><b>PONDICHERRY UNIVERSITY</b></div><div class="edu-row"><span>FOCUS</span><b>LEARN · EXPERIMENT · BUILD</b></div></div></div>
+<!-- ───────── FAQ ───────── -->
+<section class="section" id="faq" aria-labelledby="faqTitle">
+  <header class="sec-head reveal"><span><b>06</b> — FAQ</span><span>Quick answers</span></header>
+  <div class="faq-grid">
+    <h2 id="faqTitle" class="reveal">A few things you might <em>wonder.</em></h2>
+    <div class="faq-list" id="faqList"><div class="skeleton">Loading…</div></div>
+  </div>
 </section>
 
-<section class="faq section" id="faq">
-<div class="section-top"><span>08 / FAQ</span><span>QUICK ANSWERS</span></div>
-<div class="faq-grid"><h2>A few things<br>you might <em>wonder.</em></h2><div id="faqList"><div class="skeleton">LOADING…</div></div></div>
-</section>
+<!-- ───────── Contact ───────── -->
+<section class="section section-contact" id="contact" aria-labelledby="contactTitle">
+  <div class="contact reveal">
+    <div class="contact-copy">
+      <p class="label">Let’s build something</p>
+      <h2 id="contactTitle">Got an idea? <em>Talk to me.</em></h2>
+      <p>A project, a collaboration, a question, or just a strange idea that deserves a conversation.</p>
+      <ul class="contact-links">
+        <li><a id="connectEmail" href="mailto:farisdomain@gmail.com" data-sound>farisdomain@gmail.com <svg><use href="#i-arrow"/></svg></a></li>
+        <li><a id="connectInstagram" href="https://www.instagram.com/farixhere/" target="_blank" rel="noopener noreferrer" data-sound>Instagram <svg><use href="#i-arrow"/></svg></a></li>
+        <li><a id="connectGithub" href="https://github.com/dupekingsam-code" target="_blank" rel="noopener noreferrer" data-sound>GitHub <svg><use href="#i-arrow"/></svg></a></li>
+      </ul>
+    </div>
 
-<section class="contact section" id="contact">
-<div class="contact-card"><div><span class="label">LET'S BUILD SOMETHING</span><h2>Got an idea?<br><em>Talk to me.</em></h2><p>Project, collaboration, question or just a strange idea that deserves a conversation.</p><div class="contact-links"><a id="connectEmail" href="mailto:farisdomain@gmail.com" data-sound>farisdomain@gmail.com ↗</a><a id="connectInstagram" href="https://www.instagram.com/farixhere/" target="_blank" rel="noopener" data-sound>Instagram ↗</a><a id="connectGithub" href="https://github.com/dupekingsam-code" target="_blank" rel="noopener" data-sound>GitHub ↗</a></div></div>
-<form id="contactForm"><label>YOUR NAME<input name="name" required placeholder="What should I call you?"></label><label>YOUR EMAIL<input name="email" type="email" required placeholder="you@example.com"></label><label>MESSAGE<textarea name="message" rows="5" required placeholder="Tell me what's on your mind…"></textarea></label><button class="btn solid" type="submit" data-sound>SEND MESSAGE <b>↗</b></button><p id="formStatus" class="form-status"></p></form></div>
+    <form id="contactForm" novalidate>
+      <div class="field"><label for="cName">Your name</label><input id="cName" name="name" autocomplete="name" maxlength="100" required placeholder="What should I call you?"></div>
+      <div class="field"><label for="cEmail">Your email</label><input id="cEmail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="200" required placeholder="you@example.com"></div>
+      <div class="field"><label for="cMsg">Message</label><textarea id="cMsg" name="message" rows="5" maxlength="3000" required placeholder="Tell me what’s on your mind…"></textarea></div>
+      <button class="btn btn-paper" type="submit" id="sendBtn" data-sound><span>Send message</span><svg><use href="#i-arrow"/></svg></button>
+      <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
 </section>
 </main>
 
-<footer><div><a class="logo" href="#top" data-sound>FARIS<span>.</span></a><span>EXPLORING. BUILDING. REPEATING.</span><button id="backTop">BACK TO TOP ↑</button><a class="admin-control" href="admin.html" aria-label="Open admin control">ADMIN CONTROL ↗</a></div><small>© 2026 FARIS / MADE WITH CURIOSITY + CAFFEINE.</small></footer>
+<footer class="footer">
+  <div class="footer-row">
+    <a class="logo" href="#top" data-sound aria-label="Back to top">FARIS<span>.</span></a>
+    <span class="tagline">Exploring. Building. Repeating.</span>
+    <button id="backTop" type="button">Back to top ↑</button>
+    <a class="admin-control" href="admin.html" aria-label="Open admin control">Admin <svg><use href="#i-arrow"/></svg></a>
+  </div>
+  <small>© 2026 Faris · Made with curiosity + caffeine.</small>
+</footer>
 
-<button class="ask" id="askFaris" type="button" data-sound><span>✦</span> ASK FARIS</button>
-<div class="modal" id="projectModal" aria-hidden="true"><div class="modal-box"><button class="close" id="closeProject">×</button><span class="label" id="projectModalCategory">PROJECT</span><h2 id="projectModalTitle"></h2><p id="projectModalDetails"></p><div class="tags" id="projectModalTags"></div><div id="projectModalLinks"></div></div></div>
-<div class="modal" id="askModal" aria-hidden="true"><div class="modal-box ask-box"><button class="close" id="closeAsk">×</button><span class="label">A SMALL EXPERIMENT</span><h2>ASK <em>FARIS.</em></h2><p>Pick a question. This starter assistant works without an API key; an AI backend can be connected later.</p><div class="questions"><button data-question="What is Faris interested in?">What is Faris into?</button><button data-question="What is Faris building?">What is he building?</button><button data-question="How can I contact Faris?">How can I reach him?</button></div><div id="askAnswer" class="answer">Choose a question.</div></div></div>
-<div id="toast" class="toast" role="status"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="script.js?v=24"></script>
-</body></html>
+<!-- Ask Faris -->
+<button class="ask" id="askFaris" type="button" aria-haspopup="dialog" data-sound><svg><use href="#i-spark"/></svg>Ask Faris</button>
+
+<!-- Terminal -->
+<div class="modal modal-term" id="terminalModal" aria-hidden="true">
+  <div class="term" role="dialog" aria-modal="true" aria-labelledby="termTitle">
+    <div class="term-bar">
+      <span class="term-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span id="termTitle">faris@portfolio:~$</span>
+      <button class="term-close" type="button" data-close aria-label="Close terminal"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="term-console" id="terminalConsole" aria-live="polite">
+      <div class="term-line term-info">Welcome to faris.terminal v1.0.0</div>
+      <div class="term-line term-info">Type <b>"help"</b> to see available commands.</div>
+      <div class="term-gap"></div>
+      <div class="terminal-input-row" id="terminalInputRow">
+        <label for="terminalInput">guest@faris:~$</label>
+        <input id="terminalInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Terminal command" placeholder="type a command…">
+      </div>
+    </div>
+    <div class="term-status"><span>● Online</span><span>Type help · Esc to close</span></div>
+  </div>
+</div>
+
+<!-- Project details -->
+<div class="modal" id="projectModal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+    <button class="close" type="button" data-close aria-label="Close project details"><svg><use href="#i-close"/></svg></button>
+    <div class="modal-art" id="projectModalArt" aria-hidden="true"></div>
+    <p class="label" id="projectModalCategory">Project</p>
+    <h2 id="projectModalTitle"></h2>
+    <p class="modal-status" id="projectModalStatus" hidden></p>
+    <p id="projectModalDetails"></p>
+    <ul class="tags" id="projectModalTags"></ul>
+    <div class="modal-links" id="projectModalLinks"></div>
+  </div>
+</div>
+
+<!-- Blog reader -->
+<div class="modal" id="postModal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="postModalTitle">
+    <button class="close" type="button" data-close aria-label="Close note"><svg><use href="#i-close"/></svg></button>
+    <p class="label" id="postModalDate"></p>
+    <h2 id="postModalTitle"></h2>
+    <div class="post-body" id="postModalBody"></div>
+  </div>
+</div>
+
+<!-- Ask Faris -->
+<div class="modal" id="askModal" aria-hidden="true">
+  <div class="modal-box ask-box" role="dialog" aria-modal="true" aria-labelledby="askTitle">
+    <button class="close" type="button" data-close aria-label="Close Ask Faris"><svg><use href="#i-close"/></svg></button>
+    <p class="label">A small experiment</p>
+    <h2 id="askTitle">Ask <em>Faris.</em></h2>
+    <p>Pick a question. This starter assistant answers from a fixed set — no AI backend is connected yet.</p>
+    <div class="questions">
+      <button type="button" data-question="interest">What is Faris into?</button>
+      <button type="button" data-question="building">What is he building?</button>
+      <button type="button" data-question="study">What does he study?</button>
+      <button type="button" data-question="contact">How can I reach him?</button>
+    </div>
+    <div id="askAnswer" class="answer" role="status" aria-live="polite">Choose a question.</div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js?v=30"></script>
+</body>
+</html>
