@@ -2,9 +2,9 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#F7F5EF">
+<meta name="theme-color" content="#F4EFE6">
 <title>FARIS — Student, exploring what’s possible</title>
 <meta name="description" content="Faris — a student exploring ideas, AI, and the process of turning concepts into real projects.">
 <meta property="og:title" content="FARIS — Curious by nature. Building by experimenting.">
@@ -18,13 +18,16 @@
   d.setAttribute('data-theme',t);
   d.classList.add('js');
   var m=document.querySelector('meta[name=theme-color]');
-  if(m)m.setAttribute('content',t==='dark'?'#121210':'#F7F5EF');
+  if(m)m.setAttribute('content',t==='dark'?'#0F0E0C':'#F4EFE6');
 })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=30">
+<link rel="stylesheet" href="styles.css?v=31">
+<link rel="stylesheet" href="css/glass.css?v=31">
+<link rel="stylesheet" href="css/arcade.css?v=31">
+<link rel="stylesheet" href="css/xiraf.css?v=31">
 </head>
 <body>
 
@@ -40,6 +43,8 @@
     <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
     <symbol id="i-term" viewBox="0 0 24 24"><path d="m5 7 5 5-5 5M12.5 18H19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-game" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="10" rx="5"/><path d="M8 11v4M6 13h4"/></g><circle cx="15.5" cy="12" r="1.1" fill="currentColor"/><circle cx="18" cy="14" r="1.1" fill="currentColor"/></symbol>
+    <symbol id="i-os" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="12.5" rx="3"/><path d="M8.5 20.5h7M12 17v3.5"/><path d="m9.5 8.5 5 5M14.5 8.5l-5 5"/></g></symbol>
     <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2.1 6L20 11l-5.9 2.1L12 19l-2.1-5.9L4 11l5.9-2z" fill="currentColor"/></symbol>
     <symbol id="i-gh" viewBox="0 0 24 24"><path d="M9 19c-4 .9-4-2-5-2m10 4v-3.9c0-1 .1-1.4-.5-2 2.1-.2 4.3-1 4.3-4.6 0-1-.4-1.9-1-2.6.1-.2.5-1.3-.1-2.6 0 0-.8-.3-2.7 1a9.3 9.3 0 0 0-5 0c-1.9-1.3-2.700-1-2.700-1-.6 1.300-.2 2.400-.1 2.600-.6.700-1 1.600-1 2.600 0 3.600 2.200 4.400 4.300 4.600-.4.400-.6 1-.6 2v3.900" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-ig" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></g></symbol>
@@ -48,12 +53,16 @@
   </defs>
 </svg>
 
+<!-- ambient light behind the glass (transform-only animation, pauses off-screen / in XIRAF) -->
+<div class="ambient" aria-hidden="true"><i class="amb a1"></i><i class="amb a2"></i><i class="amb a3"></i></div>
+<p id="srLive" class="sr-only" role="status" aria-live="polite"></p>
+
 <a class="skip" href="#main">Skip to content</a>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
 <!-- ───────── Header ───────── -->
 <header class="topbar" id="topbar">
-  <nav class="nav" aria-label="Primary">
+  <nav class="nav glass-bar" aria-label="Primary">
     <a class="logo" href="#top" data-sound aria-label="Faris — back to top">FARIS<span>.</span></a>
 
     <div class="navlinks" id="navlinks">
@@ -66,7 +75,9 @@
     </div>
 
     <div class="navtools">
-      <button id="terminalOpen" class="tool" type="button" aria-label="Open terminal" aria-haspopup="dialog"><svg><use href="#i-term"/></svg></button>
+      <button id="xirafOpen" class="tool tool-os" type="button" aria-label="Boot XIRAF OS" title="Boot XIRAF OS"><svg><use href="#i-os"/></svg></button>
+      <button id="arcadeOpen" class="tool" type="button" aria-label="Open the arcade" aria-haspopup="dialog" title="Arcade"><svg><use href="#i-game"/></svg></button>
+      <button id="terminalOpen" class="tool" type="button" aria-label="Open terminal" aria-haspopup="dialog" title="Terminal ( / )"><svg><use href="#i-term"/></svg></button>
       <button id="soundToggle" class="tool" type="button" aria-label="Sound effects" aria-pressed="false" title="Sound effects (off)"><svg class="ico-off"><use href="#i-sound-off"/></svg><svg class="ico-on"><use href="#i-sound-on"/></svg></button>
       <button id="themeToggle" class="tool" type="button" aria-label="Switch to dark theme" title="Switch theme"><svg class="ico-sun"><use href="#i-sun"/></svg><svg class="ico-moon"><use href="#i-moon"/></svg></button>
       <button id="menuBtn" class="tool menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><svg class="ico-open"><use href="#i-menu"/></svg><svg class="ico-shut"><use href="#i-close"/></svg></button>
@@ -79,7 +90,7 @@
 <section class="hero" id="top" aria-labelledby="heroTitle">
   <div class="hero-copy">
     <p class="status rise" style="--d:0"><span class="pulse" aria-hidden="true"></span>Student · Exploring what’s possible</p>
-    <h1 id="heroTitle" class="display rise" style="--d:1">
+    <h1 id="heroTitle" class="display rise" style="--d:1" tabindex="-1">
       <span class="ln">Curious <em>by nature.</em></span>
       <span class="ln">Building by <span class="scribble">experimenting.</span></span>
     </h1>
@@ -99,17 +110,15 @@
       <li id="heroLinkedinItem" hidden><a id="heroLinkedin" href="#" target="_blank" rel="noopener noreferrer" data-sound><svg><use href="#i-in"/></svg>LinkedIn</a></li>
       <li><a id="heroEmail" href="mailto:farisdomain@gmail.com" data-sound><svg><use href="#i-mail"/></svg>Email</a></li>
     </ul>
+    <p class="hero-hint rise" style="--d:6"><span aria-hidden="true">›_</span> Press <kbd>/</kbd> for the console · type <code>boot xiraf</code> to enter a different world · <em>click any glass panel</em></p>
   </div>
 
   <!-- Interactive playground (decorative) -->
   <div class="hero-stage rise" style="--d:2">
     <div class="stage" id="stage">
       <div class="layer l-dots" aria-hidden="true"></div>
-
       <div class="layer l-disc" style="--dx:10" aria-hidden="true"><i></i></div>
-
       <div class="layer l-arch" style="--dx:-16" aria-hidden="true"></div>
-
       <div class="layer l-orbit" style="--dx:22" aria-hidden="true">
         <svg viewBox="0 0 400 400" focusable="false">
           <circle cx="200" cy="200" r="168" fill="none" stroke="var(--cobalt)" stroke-width="1.5"/>
@@ -118,16 +127,13 @@
           <circle cx="32" cy="200" r="3" fill="var(--cobalt)" opacity=".6"/>
         </svg>
       </div>
-
       <div class="layer l-spin" style="--dx:34">
         <div class="spin"><button class="sphere" id="sphere" type="button" aria-label="Boop the apricot sphere"></button></div>
       </div>
-
       <figure class="layer l-photo" id="heroPhoto" style="--dx:-26" hidden>
         <img id="heroPhotoImg" alt="Portrait of Faris" width="120" height="138" decoding="async" referrerpolicy="no-referrer">
         <figcaption>Me, mid-experiment</figcaption>
       </figure>
-
       <p class="stage-hint" aria-hidden="true"><span>Playground</span><span>Move · touch · boop <b id="boopCount">0</b></span></p>
     </div>
   </div>
@@ -146,9 +152,9 @@
   </div>
 
   <ol class="principles">
-    <li class="reveal"><b>01</b><h3>Explore</h3><p>Follow the questions that won’t leave me alone.</p></li>
-    <li class="reveal"><b>02</b><h3>Build</h3><p>Turn ideas into something you can actually use.</p></li>
-    <li class="reveal"><b>03</b><h3>Ship</h3><p>Stop polishing forever. Put the thing out there.</p></li>
+    <li class="glass reveal" data-gp data-gp-key="principle-explore" data-gp-label="Explore"><b>01</b><h3>Explore</h3><p>Follow the questions that won’t leave me alone.</p></li>
+    <li class="glass reveal" data-gp data-gp-key="principle-build" data-gp-label="Build"><b>02</b><h3>Build</h3><p>Turn ideas into something you can actually use.</p></li>
+    <li class="glass reveal" data-gp data-gp-key="principle-ship" data-gp-label="Ship"><b>03</b><h3>Ship</h3><p>Stop polishing forever. Put the thing out there.</p></li>
   </ol>
 
   <div class="now" id="now">
@@ -164,6 +170,7 @@
     <h2 id="workTitle">Things worth <em>building.</em></h2>
     <div class="filters" id="projectFilters" role="group" aria-label="Filter projects by category"><button type="button" class="active" data-f="all" aria-pressed="true">All</button></div>
   </div>
+  <p class="panel-tip reveal"><svg aria-hidden="true"><use href="#i-spark"/></svg>Every glass panel here is its own object — click one to shatter it, click again (or press Rebuild) to put it back together.</p>
   <p class="sr-only" id="projectCount" aria-live="polite"></p>
   <div class="project-grid" id="projectGrid"><div class="skeleton">Loading projects…</div></div>
 </section>
@@ -193,7 +200,7 @@
 <!-- ───────── Education ───────── -->
 <section class="section" id="education" aria-labelledby="eduTitle">
   <header class="sec-head reveal"><span><b>05</b> — Education</span><span>Where I’m learning</span></header>
-  <div class="edu reveal">
+  <div class="edu glass reveal" data-gp data-gp-key="education" data-gp-label="Education">
     <div class="edu-main">
       <p class="label">Currently</p>
       <h2 id="eduTitle">BA <em>Sociology.</em></h2>
@@ -219,7 +226,7 @@
 
 <!-- ───────── Contact ───────── -->
 <section class="section section-contact" id="contact" aria-labelledby="contactTitle">
-  <div class="contact reveal">
+  <div class="contact reveal" data-gp data-gp-key="contact" data-gp-label="Contact" data-gp-surface="off">
     <div class="contact-copy">
       <p class="label">Let’s build something</p>
       <h2 id="contactTitle">Got an idea? <em>Talk to me.</em></h2>
@@ -263,30 +270,18 @@
       <span id="termTitle">faris@portfolio:~$</span>
       <button class="term-close" type="button" data-close aria-label="Close terminal"><svg><use href="#i-close"/></svg></button>
     </div>
-    <div class="term-console" id="terminalConsole" aria-live="polite">
-      <div class="term-line term-info">Welcome to faris.terminal v1.0.0</div>
-      <div class="term-line term-info">Type <b>"help"</b> to see available commands.</div>
-      <div class="term-gap"></div>
-      <div class="terminal-input-row" id="terminalInputRow">
-        <label for="terminalInput">guest@faris:~$</label>
-        <input id="terminalInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Terminal command" placeholder="type a command…">
-      </div>
-    </div>
-    <div class="term-status"><span>● Online</span><span>Type help · Esc to close</span></div>
+    <div class="term-console" id="terminalConsole"></div>
+    <div class="term-status"><span>● Online</span><span>help · help games · boot xiraf · Esc to close</span></div>
   </div>
 </div>
 
-<!-- Project details -->
-<div class="modal" id="projectModal" aria-hidden="true">
-  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
-    <button class="close" type="button" data-close aria-label="Close project details"><svg><use href="#i-close"/></svg></button>
-    <div class="modal-art" id="projectModalArt" aria-hidden="true"></div>
-    <p class="label" id="projectModalCategory">Project</p>
-    <h2 id="projectModalTitle"></h2>
-    <p class="modal-status" id="projectModalStatus" hidden></p>
-    <p id="projectModalDetails"></p>
-    <ul class="tags" id="projectModalTags"></ul>
-    <div class="modal-links" id="projectModalLinks"></div>
+<!-- Arcade -->
+<div class="modal" id="arcadeModal" aria-hidden="true">
+  <div class="modal-box arcade-box" role="dialog" aria-modal="true" aria-labelledby="arcadeTitle">
+    <button class="close" type="button" data-close aria-label="Close arcade"><svg><use href="#i-close"/></svg></button>
+    <p class="label">Mini-games</p>
+    <h2 id="arcadeTitle">Arcade</h2>
+    <div class="arcade-hostwrap"><div id="arcadeHost"></div></div>
   </div>
 </div>
 
@@ -320,6 +315,6 @@
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js?v=30"></script>
+<script type="module" src="js/main.js?v=31"></script>
 </body>
 </html>

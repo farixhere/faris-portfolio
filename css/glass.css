@@ -1,0 +1,61 @@
+/* ==========================================================================
+   Glass panel engine — visuals for js/glass.js
+   States (data-state on each panel): intact · exploding · collapsed · rebuilding
+   The real content stays in the DOM the whole time (hidden + inert); fragments are
+   throwaway copies. Nothing here changes layout, so the page never jumps.
+   ========================================================================== */
+.gp{position:relative}
+.gp-busy{transform:none!important;transition:none!important}
+
+/* the explicit, always-reachable control */
+.gp-toggle{
+  position:absolute;top:10px;right:10px;z-index:7;display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 12px 0 10px;
+  border:1px solid var(--glass-edge);border-radius:999px;background:var(--glass-strong);color:var(--fg);
+  font:500 .62rem var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 8px 18px -10px rgba(0,0,0,.4);
+  opacity:0;transform:translateY(-3px);transition:opacity .2s,transform .25s var(--ease),background-color .2s,color .2s;
+}
+.gp-toggle svg{width:14px;height:14px}
+.gp:hover>.gp-toggle,.gp:focus-within>.gp-toggle,.gp-toggle:focus-visible,.gp[data-state=collapsed]>.gp-toggle,.gp[data-state=rebuilding]>.gp-toggle,.gp[data-state=exploding]>.gp-toggle{opacity:1;transform:none}
+.gp-toggle:hover{background:var(--cobalt);color:#fff;border-color:var(--cobalt)}
+.gp-toggle[aria-disabled=true]{pointer-events:none;opacity:.55}
+@media (hover:none),(pointer:coarse){ .gp-toggle{opacity:.92;transform:none;min-height:40px} }
+/* panels whose content sits right-aligned at the top-right corner get a little breathing room */
+.contact>.gp-toggle,.edu>.gp-toggle{top:14px;right:14px}
+
+/* while broken, the panel's own surface and content vanish — only the fragments remain */
+.gp:not([data-state=intact])>:not(.gp-keep){visibility:hidden}
+.gp:not([data-state=intact]){
+  background:transparent!important;border-color:transparent!important;box-shadow:none!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+.gp:not([data-state=intact])::before,.gp:not([data-state=intact])::after{opacity:0!important}
+
+.gp-shards{position:absolute;inset:0;z-index:6;pointer-events:auto;cursor:pointer}
+.gp-shard{position:absolute;contain:layout paint;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.gp-shard-in{position:absolute}
+/* fragments are fully static copies: no blur, no shadow, no hover/transition effects */
+.gp-clone,.gp-clone *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;transition:none!important;animation:none!important;pointer-events:none!important}
+.gp-clone{transform:none!important;margin:0!important;box-shadow:none}
+.gp-clone .reveal{opacity:1!important;transform:none!important}
+.gp-clone::before{opacity:1!important}
+/* subtle glass body + edge light on every fragment */
+.gp-shard::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,rgba(255,255,255,.34),rgba(255,255,255,.04) 46%,rgba(110,140,255,.16))}
+html[data-theme=dark] .gp-shard::after{background:linear-gradient(125deg,rgba(255,255,255,.2),rgba(255,255,255,.02) 46%,rgba(110,140,255,.2))}
+.gp-edge{position:absolute;left:0;top:0;pointer-events:none;filter:drop-shadow(0 0 1px rgba(80,110,255,.55))}
+.gp-glint{position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(115deg,transparent 28%,rgba(255,255,255,.95) 50%,transparent 72%)}
+
+/* "suit-up" finish: a reflective sweep clipped to the panel, plus a short rim flash */
+.gp-sheen{position:absolute;inset:0;z-index:8;overflow:hidden;border-radius:inherit;pointer-events:none}
+.gp-sheen i{position:absolute;top:-10%;bottom:-10%;left:0;width:34%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent)}
+.gp-flash{animation:gp-flash .7s ease-out}
+@keyframes gp-flash{0%{box-shadow:0 0 0 2px rgba(120,150,255,.9),0 0 38px rgba(80,120,255,.65)}100%{box-shadow:var(--glass-shadow)}}
+.contact.gp-flash{animation:gp-flash-dark .7s ease-out}
+@keyframes gp-flash-dark{0%{box-shadow:0 0 0 2px rgba(255,255,255,.9),0 0 38px rgba(255,255,255,.5)}100%{box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 40px 70px -34px rgba(49,89,232,.7)}}
+
+/* reduced motion: a clear, static "shattered" state instead of fragments */
+.gp.gp-reduced[data-state=collapsed]{
+  background:repeating-linear-gradient(135deg,rgba(120,140,255,.14) 0 10px,transparent 10px 22px)!important;
+  border:1px dashed var(--line-strong)!important;border-radius:var(--r-lg);
+}
+.gp.gp-reduced[data-state=collapsed]::after{content:"Shattered";opacity:1!important;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:auto;height:auto;aspect-ratio:auto;inset:auto;background:none;border-radius:0;font:500 .72rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
