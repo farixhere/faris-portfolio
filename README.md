@@ -9,6 +9,14 @@
   <a href="https://github.com/farixhere/faris-portfolio"><img src="https://img.shields.io/badge/Source-GitHub-181717?style=for-the-badge&logo=github" alt="FARIS source on GitHub" /></a>
 </p>
 
+## See the portfolio
+
+<a href="https://farixhere.github.io/faris-portfolio/">
+  <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffarixhere.github.io%2Ffaris-portfolio%2F?w=1200" alt="Live preview of the FARIS personal portfolio" width="100%" />
+</a>
+
+*Preview captured from the live portfolio. Open it to explore the interactive experience.*
+
 ## Explore the experience
 
 ### Aurora Glass
