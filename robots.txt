@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /control.html
+
+Sitemap: https://farixhere.github.io/faris-portfolio/sitemap.xml
