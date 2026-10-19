@@ -1,43 +1,99 @@
-# faris-portfolio
+# FARIS — Personal Portfolio
 
-Faris's portfolio — a static site (vanilla HTML/CSS and native ES modules, **no build step, no dependencies**) with a Supabase backend for live content.
+> A living portfolio for experiments, interactive ideas, and projects built while learning.
 
-## What's in it
+**FARIS** is Faris's personal website: an interactive portfolio that combines a glass-inspired visual design, small playful interactions, a terminal-style command interface, mini-games, and a live project showcase.
 
-- **Aurora Glass** – a ground-up glass design: animated aurora background, frosted panels with iridescent rims and a cursor-following highlight, floating dock, four accent palettes (`accent violet|cyan|rose|amber|mint`), light/dark. Tokens live in `styles.css`, shatter visuals in `css/glass.css`.
-- **Shatter panels** – every panel marked `data-gp` is independent. Tap it three times (within ~2.6s) and it cracks, then breaks into fragments; the first two taps only show cracks. There are no Shatter buttons – a small Rebuild pill appears only while a panel is broken (tapping the debris also works). Console: `shatter` / `rebuild`. Reduced motion gets a static fallback. Engine: `js/glass.js`.
-- **Project showcase** – tilt + reflection cards with expandable details. Only real data from Supabase (with the original three projects as fallback) is shown.
-- **XIRAF OS** – a desktop-style rendering of the same portfolio (`js/xiraf/`): boot sequence, menubar, dock, launcher, notifications, draggable/resizable windows (full-screen sheets on mobile) and apps: Portfolio, Projects, Terminal, Arcade, About. The normal page is only made `inert`, not torn down, so scroll position and state are restored on exit.
-- **Console** – live in the hero, plus a modal (terminal button or `/`) and inside XIRAF. Run `help` for groups: sections (`about`, `projects`, `open <section>`, `cat <project>`, `stack`, `socials`, `contact`), about (`whoami`, `neofetch`, `banner`), play (`matrix`, `confetti`, `coin`, `roll`, `fortune`, `game <name>`), system (`accent`, `theme`, `shatter`, `rebuild`, `sound`, `boot xiraf`, `exit xiraf`, `clear`). Input is sanitised, matched against a fixed registry (`js/commands.js`); nothing is evaluated.
-- **Arcade** – five built-in games (`js/arcade/`): Flappy, Snake, Memory, Pong, 2048. Each exposes `create(container) → {destroy, pause, resume, restart}`, handles keyboard/touch, pauses when hidden and releases everything on close.
-- **Admin** (`admin.html`) – glass-styled dashboard for the Supabase content. Auth and data logic (`admin.js`) are unchanged.
+<p>
+  <a href="https://farixhere.github.io/faris-portfolio/"><img src="https://img.shields.io/badge/Visit-Live_Portfolio-DB6D36?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Visit FARIS portfolio" /></a>
+  <a href="https://github.com/farixhere/faris-portfolio"><img src="https://img.shields.io/badge/Source-GitHub-181717?style=for-the-badge&logo=github" alt="FARIS source on GitHub" /></a>
+</p>
 
-## Layout
+## Explore the experience
 
-```
-index.html        page markup
-styles.css        tokens + base + sections
-css/glass.css     shatter panels      css/arcade.css   games      css/xiraf.css   XIRAF OS
-js/main.js        entry point         js/data.js       Supabase + fallback data
-js/glass.js       shatter engine      js/commands.js   command registry     js/console.js  terminal UI
-js/arcade/        games + launcher    js/xiraf/        windows, apps, OS shell
-admin.html/.css/.js   dashboard
-```
+### Aurora Glass
+- Frosted-glass panels with animated aurora styling, iridescent edges, and cursor-following highlights.
+- Light and dark themes, with multiple accent palettes.
+- Independent panel shatter and rebuild interactions.
+
+### Project showcase
+- Interactive project cards with tilt and reflection effects.
+- Project content loaded from Supabase, with fallback entries when remote content is unavailable.
+- Expandable project details.
+
+### XIRAF OS
+A desktop-inspired interface inside the portfolio, with a boot sequence, dock, launcher, notifications, and draggable/resizable windows. On mobile, windows adapt into full-screen sheets.
+
+### Terminal and mini-games
+- A terminal-style console with help and navigation commands.
+- Five built-in arcade games: Flappy, Snake, Memory, Pong, and 2048.
+- Keyboard and touch support, plus pause/resume behaviour for games.
+
+### Admin dashboard
+The `admin.html` page provides a dashboard for managing the Supabase-backed portfolio content. Access depends on the configured admin account and backend permissions.
+
+## Visit the website
+
+**[Open the live FARIS portfolio](https://farixhere.github.io/faris-portfolio/)**
 
 ## Run locally
 
-```sh
-python3 -m http.server 8000     # then open http://localhost:8000
+This is a static website built with vanilla HTML, CSS, and native JavaScript modules. There is no frontend build step or package installation required.
+
+### Option 1: Python
+
+```bash
+git clone https://github.com/farixhere/faris-portfolio.git
+cd faris-portfolio
+python3 -m http.server 8000
 ```
 
-Any static host works; on GitHub Pages just serve the branch root.
+Open [http://localhost:8000](http://localhost:8000).
 
-## Security notes
+### Option 2: Any static server
 
-- The Supabase **publishable** key in client code is public by design; access is enforced by Row Level Security (public read, anonymous insert on `messages`, authenticated admin writes).
-- No secrets are committed. The admin page only works for the configured admin account.
-- Reduced motion is honoured everywhere; heavy effects are tuned down on mobile / coarse pointers rather than removed.
+Serve the repository root with a local static server or host it on a static web host.
 
-## Accessibility
+Some live content and admin features require the configured Supabase project.
 
-Keyboard-reachable Rebuild pill and `shatter`/`rebuild` console commands, focus-visible rings, ARIA live announcements for XIRAF and rebuilds, `inert` on hidden/background layers, 40px+ touch targets.
+## Project structure
+
+| Path | Purpose |
+| --- | --- |
+| `index.html` | Main page markup and metadata |
+| `styles.css` | Design tokens, layout, and core styles |
+| `css/glass.css` | Glass and shatter effects |
+| `css/arcade.css` | Arcade game styling |
+| `css/xiraf.css` | XIRAF OS interface |
+| `js/main.js` | Main application entry |
+| `js/data.js` | Supabase integration and fallback content |
+| `js/glass.js` | Shatter/rebuild interaction engine |
+| `js/commands.js` | Allowed terminal command registry |
+| `js/console.js` | Terminal interface |
+| `js/arcade/` | Mini-games and launcher |
+| `js/xiraf/` | Desktop-style windows and apps |
+| `admin.html`, `admin.js` | Content-management dashboard |
+
+## Security and privacy
+
+- The Supabase browser key is a publishable key; access control must be enforced by Supabase Row Level Security policies.
+- Never commit service-role keys, database passwords, or other private credentials.
+- Admin writes should remain protected by authenticated access and appropriate database policies.
+- Terminal input is matched against a fixed command registry rather than evaluated as arbitrary JavaScript.
+
+## Accessibility and responsive design
+
+- Keyboard-visible focus states and keyboard-reachable controls.
+- Reduced-motion support.
+- Touch-friendly controls and mobile-specific adjustments.
+- Background interfaces are made inert when the XIRAF OS layer is active.
+
+## Links
+
+- **Portfolio:** https://farixhere.github.io/faris-portfolio/
+- **GitHub:** https://github.com/farixhere
+- **Instagram:** https://www.instagram.com/farixhere/
+
+---
+
+Made by Faris — learning by building, and building to learn.
