@@ -10,7 +10,7 @@ export function mountConsole(host, ctx, { prompt = 'guest@faris:~$', greeting = 
   host.classList.add('term-console');
   host.setAttribute('aria-live', 'polite');
   host.innerHTML = `
-    ${greeting ? '<div class="term-line term-info">Welcome to faris.terminal v2.0.0</div><div class="term-line term-info">Type <b>"help"</b> for commands · <b>"boot xiraf"</b> to enter XIRAF OS.</div><div class="term-gap"></div>' : ''}
+    ${greeting ? '<div class="term-line term-info">faris.terminal <b>v3</b> — glass edition</div><div class="term-line term-info">Type <b>help</b> · try <b>neofetch</b>, <b>accent rose</b>, <b>matrix</b>, <b>game snake</b> · or <b>boot xiraf</b>.</div><div class="term-gap"></div>' : ''}
     <div class="terminal-input-row"><label>${esc(prompt)}</label><input autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send" maxlength="80" aria-label="Terminal command" placeholder="type a command…"></div>`;
   const row = host.querySelector('.terminal-input-row'), input = row.querySelector('input'), label = row.querySelector('label');
   input.id = 'tin-' + Math.random().toString(36).slice(2, 8); label.htmlFor = input.id;

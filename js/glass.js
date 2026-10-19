@@ -17,12 +17,18 @@
    • Everything it creates (nodes, animations, observers, listeners) is released on
      rebuild / destroy.
 
+   Interaction: a panel shatters on the THIRD tap within a short window. Taps 1 and 2 only
+   crack it (a small shake + growing crack lines), and the count resets if the visitor
+   pauses. There is no "Shatter" button. Once broken, a small "Rebuild" control appears
+   (also reachable by tapping the debris), and the console has `shatter` / `rebuild`.
+
    Markup contract: a panel's direct children must be elements (not bare text).
    ========================================================================== */
 import { $$, announce, perfProfile, reduceMotion, rng, hashStr, clamp } from './util.js';
 
 const INTERACTIVE = 'a[href],button,input,textarea,select,summary,label,[role=button],[contenteditable],[data-gp-ignore]';
-const ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5 10.6 9 5 6.4l3.6 5L3 14l6.4.9L11 21.5l2-6.2 6 1.7-3.4-5L21 9l-6.6.6z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+const ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const TAPS_TO_BREAK = 3, TAP_WINDOW = 2600;
 
 const registry = new WeakMap();
 const collapsedKeys = new Set();          // survives re-renders (e.g. changing the project filter)
@@ -129,16 +135,10 @@ class Panel {
     this.layer = null; this.shards = []; this.anims = []; this.token = 0; this.ro = null; this.size = null; this.down = null;
 
     el.classList.add('gp'); el.dataset.state = 'intact'; el.dataset.gpReady = '';
-    this.toggle = document.createElement('button');
-    this.toggle.type = 'button'; this.toggle.className = 'gp-toggle gp-keep';
-    this.toggle.innerHTML = ICON + '<span class="gp-txt">Shatter</span>';
-    el.appendChild(this.toggle);
-    this.paintToggle();
+    this.toggle = null; this.taps = 0; this.tapTimer = 0; this.crack = null; this.crackPts = [];
 
-    this.onToggle = e => { e.stopPropagation(); this.state === 'intact' ? this.shatter(this.toggleOrigin()) : this.rebuild(); };
     this.onDown = e => { this.down = { x: e.clientX, y: e.clientY }; };
     this.onClick = e => this.surfaceClick(e);
-    this.toggle.addEventListener('click', this.onToggle);
     el.addEventListener('pointerdown', this.onDown, { passive: true });
     el.addEventListener('click', this.onClick);
 
@@ -148,12 +148,62 @@ class Panel {
   /* direct children that make up the panel's content (everything we didn't add) */
   contents(){ return [...this.el.children].filter(c => !c.classList.contains('gp-keep')); }
 
+  /* the only visible control: a "Rebuild" pill, present just while the panel is broken */
   paintToggle(){
-    const s = this.state, broken = s === 'collapsed' || s === 'rebuilding';
-    this.toggle.setAttribute('aria-label', (broken ? 'Rebuild ' : 'Shatter ') + this.label + ' panel');
+    const s = this.state, broken = s === 'collapsed' || s === 'rebuilding' || s === 'exploding';
+    if (!broken){ this.toggle?.remove(); this.toggle = null; return; }
+    if (!this.toggle){
+      this.toggle = document.createElement('button');
+      this.toggle.type = 'button'; this.toggle.className = 'gp-toggle gp-keep';
+      this.toggle.innerHTML = ICON + '<span class="gp-txt">Rebuild</span>';
+      this.toggle.addEventListener('click', this.onToggle ||= e => { e.stopPropagation(); this.rebuild(); });
+      this.el.appendChild(this.toggle);
+    }
+    this.toggle.setAttribute('aria-label', 'Rebuild ' + this.label + ' panel');
     this.toggle.setAttribute('aria-disabled', String(s === 'exploding' || s === 'rebuilding'));
-    this.toggle.title = broken ? 'Rebuild panel' : 'Shatter panel';
-    this.toggle.querySelector('.gp-txt').textContent = broken ? 'Rebuild' : 'Shatter';
+    this.toggle.title = 'Rebuild panel';
+  }
+
+  /* ── tap counting + crack feedback (taps 1 & 2) ─────────────────── */
+  clearCracks(){ clearTimeout(this.tapTimer); this.tapTimer = 0; this.taps = 0; this.crackPts = []; this.crack?.remove(); this.crack = null; }
+  registerTap(P){
+    this.taps++; clearTimeout(this.tapTimer);
+    if (this.taps >= TAPS_TO_BREAK){ const pt = P; this.clearCracks(); return this.shatter(pt); }
+    this.crackPts.push({ x: P.x - P.r.left, y: P.y - P.r.top });
+    this.drawCracks();
+    this.tapTimer = setTimeout(() => this.fadeCracks(), TAP_WINDOW);
+    if (!reduceMotion.matches){
+      const d = this.taps === 1 ? 2.2 : 3.6;
+      this.el.animate([{ translate: '0 0' }, { translate: `${-d}px ${d * .4}px` }, { translate: `${d}px ${-d * .4}px` }, { translate: `${-d * .5}px 0` }, { translate: '0 0' }], { duration: 240, easing: 'ease-out' });
+    }
+    announce(`${this.label} panel cracked. ${TAPS_TO_BREAK - this.taps} more ${TAPS_TO_BREAK - this.taps === 1 ? 'tap' : 'taps'} to shatter.`);
+    return true;
+  }
+  drawCracks(){
+    const w = this.el.offsetWidth, h = this.el.offsetHeight;
+    if (!this.crack){
+      this.crack = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      this.crack.setAttribute('class', 'gp-crack gp-keep'); this.crack.setAttribute('aria-hidden', 'true');
+      this.el.appendChild(this.crack);
+    }
+    this.crack.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    const rand = rng(hashStr(this.key) + this.taps * 131), reach = Math.min(w, h) * (0.16 + 0.14 * this.taps);
+    let d = '';
+    for (const p of this.crackPts){
+      const n = 5 + this.taps * 2, base = rand() * 6.28;
+      for (let i = 0; i < n; i++){
+        let a = base + i * 6.28 / n + (rand() - .5) * .6, x = p.x, y = p.y, len = reach * (0.45 + rand() * .75);
+        d += `M${x.toFixed(1)} ${y.toFixed(1)}`;
+        for (let k = 0; k < 4; k++){ const seg = len / 4; a += (rand() - .5) * .7; x += Math.cos(a) * seg; y += Math.sin(a) * seg; d += `L${x.toFixed(1)} ${y.toFixed(1)}`; }
+      }
+    }
+    this.crack.innerHTML = `<path d="${d}" class="gp-crack-glow"/><path d="${d}" class="gp-crack-line"/>`;
+    this.crack.classList.remove('is-in'); void this.crack.getBoundingClientRect(); this.crack.classList.add('is-in');
+  }
+  fadeCracks(){
+    const c = this.crack; this.taps = 0; this.crackPts = []; this.crack = null; this.tapTimer = 0;
+    if (!c) return;
+    c.classList.add('is-out'); setTimeout(() => c.remove(), 500);
   }
 
   setState(s){
@@ -172,11 +222,6 @@ class Panel {
     this.el.dispatchEvent(new CustomEvent('gp:state', { detail: { state: s, key: this.key }, bubbles: true }));
   }
 
-  toggleOrigin(){
-    const r = this.el.getBoundingClientRect(), t = this.toggle.getBoundingClientRect();
-    return { x: t.left + t.width / 2, y: t.top + t.height / 2, r };
-  }
-
   surfaceClick(e){
     if (e.defaultPrevented || this.destroyed) return;
     if (this.el.dataset.gpSurface === 'off') return;
@@ -187,8 +232,8 @@ class Panel {
     if (hit && hit !== this.el && this.el.contains(hit)) return;          // buttons, links, fields keep their own behaviour
     const sel = window.getSelection?.();
     if (sel && String(sel).length && this.el.contains(sel.anchorNode)) return; // user is selecting text
-    if (this.down && Math.hypot(e.clientX - this.down.x, e.clientY - this.down.y) > 8) return; // a drag, not a click
-    this.shatter({ x: e.clientX, y: e.clientY });
+    if (this.down && Math.hypot(e.clientX - this.down.x, e.clientY - this.down.y) > 8) return; // a drag, not a tap
+    this.registerTap({ x: e.clientX, y: e.clientY, r: this.el.getBoundingClientRect() });
   }
 
   /* ── build the fragment layer ─────────────────────────────────────── */
@@ -267,6 +312,7 @@ class Panel {
     if (this.destroyed || this.state !== 'intact') return false;
     const w0 = this.el.offsetWidth, h0 = this.el.offsetHeight;
     if (w0 < 40 || h0 < 40) return false;
+    this.clearCracks();
     collapsedKeys.add(this.key);
     const count = (sessionCounts.get(this.key) || 0) + 1; sessionCounts.set(this.key, count);
     const prof = perfProfile();
@@ -307,9 +353,9 @@ class Panel {
 
   afterCollapse(){
     const a = document.activeElement;
-    if (a && a !== this.toggle && this.el.contains(a)) this.toggle.focus({ preventScroll: true });
+    if (a && a !== this.toggle && this.el.contains(a)) this.toggle?.focus({ preventScroll: true });
     if (!reduceMotion.matches) this.watchSize();
-    announce(`${this.label} panel shattered. Use the Rebuild button to restore it.`);
+    announce(`${this.label} panel shattered. Use the Rebuild button, or tap it, to restore it.`);
   }
 
   /* ── collapsed → rebuilding → intact ("suit-up") ─────────────────── */
@@ -391,13 +437,13 @@ class Panel {
     this.dropLayer();
     this.el.removeEventListener('click', this.onClick);
     this.el.removeEventListener('pointerdown', this.onDown);
-    this.toggle.removeEventListener('click', this.onToggle);
+    this.clearCracks();
     /* content must never stay hidden after teardown */
     for (const c of this.contents()){
       if (c.dataset.gpInert){ c.removeAttribute('inert'); delete c.dataset.gpInert; }
       if (c.dataset.gpAria){ c.removeAttribute('aria-hidden'); delete c.dataset.gpAria; }
     }
-    this.toggle.remove();
+    this.toggle?.remove(); this.toggle = null;
     this.el.classList.remove('gp', 'gp-busy', 'gp-reduced', 'gp-flash');
     delete this.el.dataset.state; delete this.el.dataset.gpReady;
     registry.delete(this.el);
@@ -411,5 +457,8 @@ export const glass = {
   unmount(el){ registry.get(el)?.destroy(); },
   unmountAll(root = document){ $$('[data-gp][data-gp-ready]', root).forEach(el => glass.unmount(el)); },
   get(el){ return registry.get(el) || null; },
-  isCollapsed: key => collapsedKeys.has(key)
+  isCollapsed: key => collapsedKeys.has(key),
+  /* for the console: break / restore every visible, intact panel (keyboard-friendly alternative to tapping) */
+  shatterAll(){ let n = 0; document.querySelectorAll('.gp[data-state=intact]').forEach(el => { const r = el.getBoundingClientRect(); if (r.bottom > -innerHeight * 3 && r.top < innerHeight * 4 && registry.get(el)?.shatter({ x: r.left + r.width / 2, y: r.top + r.height / 2, r })) n++; }); return n; },
+  rebuildAll(){ let n = 0; document.querySelectorAll('.gp[data-state=collapsed]').forEach(el => { if (registry.get(el)?.rebuild()) n++; }); return n; }
 };

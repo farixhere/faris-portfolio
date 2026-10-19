@@ -169,7 +169,7 @@ export function createXiraf({ openPortfolioArcade, getRoot = () => document.getE
 
   /* ── boot / exit ── */
   function pageShell(on){
-    const els = [getRoot(), $('#topbar'), document.querySelector('.footer'), $('#askFaris'), document.querySelector('.progress')].filter(Boolean);
+    const els = [getRoot(), $('#topbar'), $('#dock'), document.querySelector('.footer'), $('#askFaris'), document.querySelector('.progress')].filter(Boolean);
     for (const el of els){ el.toggleAttribute('inert', on); if (on) el.setAttribute('aria-hidden', 'true'); else el.removeAttribute('aria-hidden'); }
   }
 
