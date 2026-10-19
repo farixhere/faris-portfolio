@@ -182,19 +182,41 @@ function renderPosts(rows){
   }));
   observeReveals(el); glass.mountAll(el);
 }
+let faqRows = [], faqIdx = 0, faqWired = false;
+function showFaq(i, { focus = false, animate = true } = {}){
+  if (!faqRows.length) return;
+  faqIdx = (i + faqRows.length) % faqRows.length;
+  const x = faqRows[faqIdx];
+  $$('.faq-tab').forEach((t, k) => { const on = k === faqIdx; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; if (on && focus) t.focus({ preventScroll: true }); });
+  $('#faqBadge').textContent = 'Q·' + String(faqIdx + 1).padStart(2, '0');
+  $('#faqQ').textContent = x.question || '';
+  const view = $('#faqA'); view.setAttribute('aria-labelledby', 'faqtab' + faqIdx);
+  const words = String(x.answer || '').split(/(\s+)/);
+  let w = 0;
+  view.innerHTML = '<p>' + words.map(t => /^\s+$/.test(t) ? t : `<span class="w" style="--i:${animate ? w++ : 0}">${esc(t)}</span>`).join('') + '</p>';
+}
 function renderFaq(rows){
   const el = $('#faqList');
-  glass.unmountAll(el);
-  if (!rows.length){ el.innerHTML = '<div class="skeleton">Questions are on their way.</div>'; return; }
-  el.innerHTML = rows.map((x, i) => `<div class="faq-item glass" data-gp data-gp-key="faq-${i}" data-gp-label="${esc(x.question)}">
-    <h3><button type="button" id="fq${i}" aria-expanded="false" aria-controls="fa${i}">${esc(x.question)}</button></h3>
-    <div class="faq-answer" id="fa${i}" role="region" aria-labelledby="fq${i}"><div><p>${esc(x.answer)}</p></div></div></div>`).join('');
-  $$('.faq-item button', el).forEach(b => b.addEventListener('click', () => {
-    const open = b.getAttribute('aria-expanded') !== 'true';
-    b.setAttribute('aria-expanded', String(open));
-    b.closest('.faq-item').classList.toggle('open', open);
-  }));
-  glass.mountAll(el);
+  glass.unmountAll($('#faqView'));
+  faqRows = rows;
+  if (!rows.length){ el.innerHTML = '<div class="skeleton">Questions are on their way.</div>'; glass.mountAll($('#faqView').parentNode); return; }
+  el.innerHTML = rows.map((x, i) => `<button type="button" class="faq-tab" role="tab" id="faqtab${i}" aria-selected="false" aria-controls="faqA" tabindex="-1"><i>${String(i + 1).padStart(2, '0')}</i><span>${esc(x.question)}</span></button>`).join('');
+  if (!faqWired){
+    faqWired = true;
+    el.addEventListener('click', e => { const t = e.target.closest('.faq-tab'); if (t) showFaq($$('.faq-tab', el).indexOf(t)); });
+    el.addEventListener('keydown', e => {
+      const k = e.key, vertical = !matchMedia('(max-width:720px)').matches;
+      const next = (vertical ? 'ArrowDown' : 'ArrowRight'), prev = (vertical ? 'ArrowUp' : 'ArrowLeft');
+      if (k === next || k === 'ArrowRight' && !vertical){ e.preventDefault(); showFaq(faqIdx + 1, { focus: true }); }
+      else if (k === prev || k === 'ArrowLeft' && !vertical){ e.preventDefault(); showFaq(faqIdx - 1, { focus: true }); }
+      else if (k === 'Home'){ e.preventDefault(); showFaq(0, { focus: true }); }
+      else if (k === 'End'){ e.preventDefault(); showFaq(faqRows.length - 1, { focus: true }); }
+    });
+    $('#faqPrev').addEventListener('click', () => showFaq(faqIdx - 1));
+    $('#faqNext').addEventListener('click', () => showFaq(faqIdx + 1));
+  }
+  showFaq(Math.min(faqIdx, rows.length - 1), { animate: false });
+  glass.mountAll($('#faqView').parentNode);
 }
 
 function applyProfile(){
@@ -237,20 +259,29 @@ function openPortfolioArcade(game){
   arcadeInst = mountArcade($('#arcadeHost'), { game, onTitle: t => { $('#arcadeTitle').textContent = t === 'Arcade' ? 'Arcade' : t; } });
 }
 
-function consoleCtx(){
+function consoleCtx(inline = false){
   return {
-    inOS: false,
-    get xiraf(){ return { boot: () => xiraf.boot({ returnFocus: $('#terminalOpen') }), exit: () => xiraf.exit() }; },
+    inOS: false, glass,
+    get xiraf(){ return { boot: () => xiraf.boot({ returnFocus: inline ? $('#heroConsole input') : $('#terminalOpen') }), exit: () => xiraf.exit() }; },
     arcade: { open: id => openPortfolioArcade(id) },
-    goto: (k, sel) => setTimeout(() => $(sel)?.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' }), 800),
-    close: () => closeModal(true)
+    goto: (k, sel) => setTimeout(() => $(sel)?.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' }), inline ? 200 : 800),
+    close: () => { if (!inline) closeModal(true); },
+    setSound: on => { store.set('faris-sound', on ? 'on' : 'off'); paintSound(); }
   };
+}
+
+/* the console that lives in the hero (the old decorative playground, now real) */
+function initHeroConsole(){
+  const host = $('#heroConsole'); if (!host) return;
+  const con = mountConsole(host, consoleCtx(true), { prompt: 'guest@faris:~$' });
+  $('#heroChips').addEventListener('click', e => { const b = e.target.closest('[data-run]'); if (b){ con.run(b.dataset.run); beep(540); } });
+  window.__heroConsole = con;
 }
 
 function initTerminal(){
   const modal = $('#terminalModal');
   const open = () => {
-    consoleInst ||= mountConsole($('#terminalConsole'), consoleCtx());
+    consoleInst ||= mountConsole($('#terminalConsole'), consoleCtx(false));
     openModal(modal, '.terminal-input-row input'); beep(520);
   };
   $('#terminalOpen').addEventListener('click', open);
@@ -305,75 +336,68 @@ function initContact(){
   });
 }
 
-/* ── Hero playground ─────────────────────────────────────────────────── */
-function initPlayground(){
-  const stage = $('#stage'); if (!stage) return;
-  let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, visible = true, lastTrail = 0, boops = 0;
-  const tick = () => {
-    cx += (tx - cx) * .09; cy += (ty - cy) * .09;
-    stage.style.setProperty('--px', cx.toFixed(3)); stage.style.setProperty('--py', cy.toFixed(3));
-    raf = (Math.abs(tx - cx) > .002 || Math.abs(ty - cy) > .002) ? requestAnimationFrame(tick) : 0;
-  };
-  const kick = () => { if (!raf && visible) raf = requestAnimationFrame(tick); };
-  const trail = (x, y, now) => {
-    if (now - lastTrail < 55) return; lastTrail = now;
-    if ($$('.trail', stage).length > 22) return;
-    const d = document.createElement('i'); d.className = 'trail';
-    d.style.left = x + 'px'; d.style.top = y + 'px';
-    d.addEventListener('animationend', () => d.remove(), { once: true });
-    stage.appendChild(d);
-  };
-  if (!reduceMotion.matches){
-    stage.addEventListener('pointermove', e => {
-      const r = stage.getBoundingClientRect();
-      tx = ((e.clientX - r.left) / r.width - .5) * 2; ty = ((e.clientY - r.top) / r.height - .5) * 2;
-      kick(); trail(e.clientX - r.left, e.clientY - r.top, e.timeStamp);
-    });
-    const rest = () => { tx = 0; ty = 0; kick(); };
-    stage.addEventListener('pointerleave', rest); stage.addEventListener('pointercancel', rest);
-    if ('IntersectionObserver' in window){
-      new IntersectionObserver(([en]) => { visible = en.isIntersecting; stage.classList.toggle('is-paused', !visible); }, { threshold: 0 }).observe(stage);
-    }
-  } else { stage.classList.add('is-paused'); }
-  $('#sphere').addEventListener('click', e => {
-    const s = e.currentTarget; s.classList.remove('boop'); void s.offsetWidth; s.classList.add('boop');
-    $('#boopCount').textContent = ++boops; beep(300 + Math.min(boops, 12) * 40);
-    if (boops === 10) toast('Ten boops. The sphere forgives you.');
-  });
+/* ── Hero light show: orb parallax, glass spotlight, local clock ─────── */
+function initHeroFx(){
+  const orbs = $('#orbs'), hero = $('.hero');
+  if (orbs && hero && !reduceMotion.matches && matchMedia('(pointer:fine)').matches){
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, visible = true;
+    const tick = () => {
+      cx += (tx - cx) * .08; cy += (ty - cy) * .08;
+      orbs.style.setProperty('--px', cx.toFixed(3)); orbs.style.setProperty('--py', cy.toFixed(3));
+      raf = visible && (Math.abs(tx - cx) > .002 || Math.abs(ty - cy) > .002) ? requestAnimationFrame(tick) : 0;
+    };
+    hero.addEventListener('pointermove', e => { const r = hero.getBoundingClientRect(); tx = ((e.clientX - r.left) / r.width - .5) * 2; ty = ((e.clientY - r.top) / r.height - .5) * 2; raf ||= requestAnimationFrame(tick); }, { passive: true });
+    if ('IntersectionObserver' in window) new IntersectionObserver(([en]) => { visible = en.isIntersecting; document.documentElement.classList.toggle('is-paused', !visible && scrollY > innerHeight * 2); }, { threshold: 0 }).observe(hero);
+  }
+  /* the glass catches the light where the pointer is */
+  if (matchMedia('(pointer:fine)').matches){
+    let pend = null, raf2 = 0;
+    document.addEventListener('pointermove', e => {
+      const g = e.target.closest?.('.glass,.glass-xl'); if (!g) return;
+      pend = { g, x: e.clientX, y: e.clientY };
+      raf2 ||= requestAnimationFrame(() => { raf2 = 0; if (!pend) return; const r = pend.g.getBoundingClientRect(); pend.g.style.setProperty('--mx', ((pend.x - r.left) / r.width * 100).toFixed(1) + '%'); pend.g.style.setProperty('--my', ((pend.y - r.top) / r.height * 100).toFixed(1) + '%'); });
+    }, { passive: true });
+  }
+  /* local time in India (real, computed — nothing invented) */
+  const clock = $('#clock'), sub = $('#clockSub');
+  if (clock){
+    const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: false });
+    const day = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', weekday: 'long', day: 'numeric', month: 'short' });
+    const paint = () => { const d = new Date(); clock.textContent = fmt.format(d); sub.textContent = 'IST · ' + day.format(d); };
+    paint(); setInterval(() => { if (!document.hidden) paint(); }, 15000);
+  }
 }
 
 /* ── Nav: scroll state, active section, progress, mobile menu ────────── */
 function initNav(){
-  const bar = $('#topbar'), links = $('#navlinks'), menu = $('#menuBtn'), prog = $('#progress');
-  const setMenu = open => {
-    links.classList.toggle('open', open); menu.setAttribute('aria-expanded', String(open));
-    menu.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    document.body.style.overflow = open ? 'hidden' : '';
-  };
-  menu.addEventListener('click', () => setMenu(!links.classList.contains('open')));
-  $$('a', links).forEach(a => a.addEventListener('click', () => setMenu(false)));
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && links.classList.contains('open')){ setMenu(false); menu.focus(); } });
-  matchMedia('(min-width:1041px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
-
+  const links = $('#navlinks'), prog = $('#progress'), dock = $('#dock');
   let ticking = false;
   const onScroll = () => {
     if (ticking) return; ticking = true;
     requestAnimationFrame(() => {
       const max = document.documentElement.scrollHeight - innerHeight;
       prog.style.width = (max > 0 ? scrollY / max * 100 : 0) + '%';
-      bar.classList.toggle('scrolled', scrollY > 8);
       ticking = false;
     });
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
   if ('IntersectionObserver' in window){
-    const map = new Map($$('a', links).map(a => [a.getAttribute('href').slice(1), a]));
+    const map = new Map($$('a[data-sec]', links).map(a => [a.dataset.sec, a]));
+    const alias = { education: 'thoughts' };                        /* sections without a dock item light up the nearest one */
     const so = new IntersectionObserver(es => es.forEach(en => {
-      const a = map.get(en.target.id); if (!a || !en.isIntersecting) return;
+      if (!en.isIntersecting) return;
+      const a = map.get(alias[en.target.id] || en.target.id); if (!a) return;
       map.forEach(x => x.removeAttribute('aria-current')); a.setAttribute('aria-current', 'true');
     }), { rootMargin: '-45% 0px -50% 0px' });
-    map.forEach((_, id) => { const s = document.getElementById(id); if (s) so.observe(s); });
+    ['top', 'experience', 'work', 'skills', 'thoughts', 'education', 'faq', 'contact'].forEach(id => { const s = document.getElementById(id); if (s) so.observe(s); });
+  }
+
+  /* fine pointers: the dock magnifies icons under the cursor */
+  if (matchMedia('(pointer:fine)').matches && !reduceMotion.matches){
+    const items = $$('a,button.dock-term', dock);
+    dock.addEventListener('pointermove', e => items.forEach(it => { const r = it.getBoundingClientRect(), d = Math.abs(e.clientX - (r.left + r.width / 2)); it.style.transform = `translateY(${-Math.max(0, 7 - d / 12).toFixed(1)}px) scale(${(1 + Math.max(0, .16 - d / 600)).toFixed(3)})`; }), { passive: true });
+    dock.addEventListener('pointerleave', () => items.forEach(it => { it.style.transform = ''; }));
   }
 }
 
@@ -395,7 +419,7 @@ function start(){
   $('#backTop').addEventListener('click', () => scrollTo({ top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth' }));
   $('#xirafOpen')?.addEventListener('click', e => xiraf.boot({ returnFocus: e.currentTarget }));
 
-  initNav(); initTerminal(); initAsk(); initContact(); initPlayground(); initProjectShowcase();
+  initNav(); initTerminal(); initHeroConsole(); initAsk(); initContact(); initHeroFx(); initProjectShowcase();
   glass.mountAll();                     // the static panels in index.html
   observeReveals();
 

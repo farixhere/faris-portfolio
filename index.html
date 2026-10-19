@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#F4EFE6">
+<meta name="theme-color" content="#E9E8F7">
 <title>FARIS — Student, exploring what’s possible</title>
 <meta name="description" content="Faris — a student exploring ideas, AI, and the process of turning concepts into real projects.">
 <meta property="og:title" content="FARIS — Curious by nature. Building by experimenting.">
@@ -14,20 +14,20 @@
 /* Runs before first paint: theme (light by default) + JS flag. */
 (function(){
   var d=document.documentElement,t='light';
-  try{var s=localStorage.getItem('faris-theme-v2');if(s==='dark'||s==='light')t=s}catch(e){}
+  try{var s=localStorage.getItem('faris-theme-v2');if(s==='dark'||s==='light')t=s;var a=localStorage.getItem('faris-accent');if(a)d.setAttribute('data-accent',a)}catch(e){}
   d.setAttribute('data-theme',t);
   d.classList.add('js');
   var m=document.querySelector('meta[name=theme-color]');
-  if(m)m.setAttribute('content',t==='dark'?'#0F0E0C':'#F4EFE6');
+  if(m)m.setAttribute('content',t==='dark'?'#060714':'#E9E8F7');
 })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=31">
-<link rel="stylesheet" href="css/glass.css?v=31">
-<link rel="stylesheet" href="css/arcade.css?v=31">
-<link rel="stylesheet" href="css/xiraf.css?v=31">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=40">
+<link rel="stylesheet" href="css/glass.css?v=40">
+<link rel="stylesheet" href="css/arcade.css?v=40">
+<link rel="stylesheet" href="css/xiraf.css?v=40">
 </head>
 <body>
 
@@ -49,135 +49,133 @@
     <symbol id="i-gh" viewBox="0 0 24 24"><path d="M9 19c-4 .9-4-2-5-2m10 4v-3.9c0-1 .1-1.4-.5-2 2.1-.2 4.3-1 4.3-4.6 0-1-.4-1.9-1-2.6.1-.2.5-1.3-.1-2.6 0 0-.8-.3-2.7 1a9.3 9.3 0 0 0-5 0c-1.9-1.3-2.700-1-2.700-1-.6 1.300-.2 2.400-.1 2.600-.6.700-1 1.600-1 2.600 0 3.600 2.200 4.400 4.300 4.600-.4.400-.6 1-.6 2v3.900" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-ig" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></g></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 5.500h18v13H3z"/><path d="m3 6.500 9 7 9-7"/></g></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></g></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="m12 4 8.5 4.5L12 13 3.5 8.500z"/><path d="m3.500 12.500 8.500 4.500 8.500-4.500M3.500 16.500 12 21l8.500-4.500"/></g></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="3"/><path d="M9.500 3v3M14.500 3v3M9.500 18v3M14.500 18v3M3 9.500h3M3 14.500h3M18 9.500h3M18 14.500h3"/></g></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4.500L16.500 4a2 2 0 0 1 3 3L8 18.500zM14 6.500l3.500 3.500" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.500"/><path d="M9.600 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1.100.9-1.100 1.700M12 16.800v.01"/></g></symbol>
     <symbol id="i-in" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10.500V17M8 7.500v.01M12 17v-6.500M12 13c0-1.700 1-2.500 2.200-2.500S16.500 11.200 16.500 13v4"/></g></symbol>
   </defs>
 </svg>
 
-<!-- ambient light behind the glass (transform-only animation, pauses off-screen / in XIRAF) -->
-<div class="ambient" aria-hidden="true"><i class="amb a1"></i><i class="amb a2"></i><i class="amb a3"></i></div>
+<!-- Aurora: light that lives behind the glass (transform-only animation; paused off-screen / in XIRAF) -->
+<div class="aurora" aria-hidden="true"><i class="au au1"></i><i class="au au2"></i><i class="au au3"></i><i class="au au4"></i><span class="grain"></span></div>
 <p id="srLive" class="sr-only" role="status" aria-live="polite"></p>
 
 <a class="skip" href="#main">Skip to content</a>
 <div class="progress" id="progress" aria-hidden="true"></div>
 
-<!-- ───────── Header ───────── -->
+<!-- ───────── Top bar: brand + quick tools ───────── -->
 <header class="topbar" id="topbar">
-  <nav class="nav glass-bar" aria-label="Primary">
-    <a class="logo" href="#top" data-sound aria-label="Faris — back to top">FARIS<span>.</span></a>
-
-    <div class="navlinks" id="navlinks">
-      <a href="#experience">Experience</a>
-      <a href="#work">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#thoughts">Blog</a>
-      <a href="#education">Education</a>
-      <a href="#contact">Contact</a>
-    </div>
-
-    <div class="navtools">
-      <button id="xirafOpen" class="tool tool-os" type="button" aria-label="Boot XIRAF OS" title="Boot XIRAF OS"><svg><use href="#i-os"/></svg></button>
-      <button id="arcadeOpen" class="tool" type="button" aria-label="Open the arcade" aria-haspopup="dialog" title="Arcade"><svg><use href="#i-game"/></svg></button>
-      <button id="terminalOpen" class="tool" type="button" aria-label="Open terminal" aria-haspopup="dialog" title="Terminal ( / )"><svg><use href="#i-term"/></svg></button>
-      <button id="soundToggle" class="tool" type="button" aria-label="Sound effects" aria-pressed="false" title="Sound effects (off)"><svg class="ico-off"><use href="#i-sound-off"/></svg><svg class="ico-on"><use href="#i-sound-on"/></svg></button>
-      <button id="themeToggle" class="tool" type="button" aria-label="Switch to dark theme" title="Switch theme"><svg class="ico-sun"><use href="#i-sun"/></svg><svg class="ico-moon"><use href="#i-moon"/></svg></button>
-      <button id="menuBtn" class="tool menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><svg class="ico-open"><use href="#i-menu"/></svg><svg class="ico-shut"><use href="#i-close"/></svg></button>
-    </div>
-  </nav>
+  <a class="brand pill" href="#top" data-sound aria-label="Faris — back to top"><span class="brand-gem" aria-hidden="true"></span>FARIS<b>.</b></a>
+  <div class="tools pill" role="toolbar" aria-label="Quick tools">
+    <button id="xirafOpen" class="tool tool-os" type="button" aria-label="Boot XIRAF OS" title="Boot XIRAF OS"><svg><use href="#i-os"/></svg></button>
+    <button id="arcadeOpen" class="tool" type="button" aria-label="Open the arcade" aria-haspopup="dialog" title="Arcade"><svg><use href="#i-game"/></svg></button>
+    <button id="soundToggle" class="tool" type="button" aria-label="Sound effects" aria-pressed="false" title="Sound effects (off)"><svg class="ico-off"><use href="#i-sound-off"/></svg><svg class="ico-on"><use href="#i-sound-on"/></svg></button>
+    <button id="themeToggle" class="tool" type="button" aria-label="Switch to dark theme" title="Switch theme"><svg class="ico-sun"><use href="#i-sun"/></svg><svg class="ico-moon"><use href="#i-moon"/></svg></button>
+  </div>
 </header>
+
+<!-- ───────── Floating dock ───────── -->
+<nav class="dock pill" id="dock" aria-label="Primary">
+  <div class="dock-links" id="navlinks">
+    <a href="#top" data-sec="top"><svg aria-hidden="true"><use href="#i-home"/></svg><span>Home</span></a>
+    <a href="#experience" data-sec="experience"><svg aria-hidden="true"><use href="#i-user"/></svg><span>About</span></a>
+    <a href="#work" data-sec="work"><svg aria-hidden="true"><use href="#i-layers"/></svg><span>Work</span></a>
+    <a href="#skills" data-sec="skills"><svg aria-hidden="true"><use href="#i-chip"/></svg><span>Skills</span></a>
+    <a href="#thoughts" data-sec="thoughts"><svg aria-hidden="true"><use href="#i-pen"/></svg><span>Notes</span></a>
+    <a href="#faq" data-sec="faq"><svg aria-hidden="true"><use href="#i-help"/></svg><span>FAQ</span></a>
+    <a href="#contact" data-sec="contact"><svg aria-hidden="true"><use href="#i-mail"/></svg><span>Contact</span></a>
+  </div>
+  <i class="dock-sep" aria-hidden="true"></i>
+  <button id="terminalOpen" class="dock-term" type="button" aria-label="Open console" aria-haspopup="dialog" title="Console ( / )"><svg aria-hidden="true"><use href="#i-term"/></svg><span>Console</span></button>
+</nav>
 
 <main id="main">
 <!-- ───────── Hero ───────── -->
 <section class="hero" id="top" aria-labelledby="heroTitle">
+  <div class="orbs" id="orbs" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i></div>
+
   <div class="hero-copy">
-    <p class="status rise" style="--d:0"><span class="pulse" aria-hidden="true"></span>Student · Exploring what’s possible</p>
-    <h1 id="heroTitle" class="display rise" style="--d:1" tabindex="-1">
+    <p class="eyebrow pill rise" style="--d:0"><span class="pulse" aria-hidden="true"></span>Student · exploring what’s possible
+      <span class="avatar" id="heroPhoto" hidden><img id="heroPhotoImg" alt="Portrait of Faris" width="28" height="28" decoding="async" referrerpolicy="no-referrer"></span></p>
+    <h1 id="heroTitle" class="mega rise" style="--d:1" tabindex="-1">
       <span class="ln">Curious <em>by nature.</em></span>
-      <span class="ln">Building by <span class="scribble">experimenting.</span></span>
+      <span class="ln">Building by <span class="grad">experimenting.</span></span>
     </h1>
     <p class="intro rise" style="--d:2">I’m Faris — a student exploring ideas, AI, and the process of turning concepts into real projects.</p>
     <div class="cta rise" style="--d:3">
       <a class="btn btn-primary" href="#work" data-sound>Explore my work <svg><use href="#i-down"/></svg></a>
-      <a class="btn btn-ghost" href="#about" data-sound>More about me</a>
+      <a class="btn btn-glass" href="#experience" data-sound>More about me</a>
     </div>
-    <dl class="facts rise" style="--d:4">
-      <div><dt>Location</dt><dd>India</dd></div>
-      <div><dt>Status</dt><dd>Student</dd></div>
-      <div><dt>Studying</dt><dd>BA Sociology</dd></div>
-    </dl>
-    <ul class="socials rise" style="--d:5" aria-label="Find me elsewhere">
+    <ul class="socials rise" style="--d:4" aria-label="Find me elsewhere">
       <li><a id="heroInstagram" href="https://www.instagram.com/farixhere/" target="_blank" rel="noopener noreferrer" data-sound><svg><use href="#i-ig"/></svg>Instagram</a></li>
       <li><a id="heroGithub" href="https://github.com/dupekingsam-code" target="_blank" rel="noopener noreferrer" data-sound><svg><use href="#i-gh"/></svg>GitHub</a></li>
       <li id="heroLinkedinItem" hidden><a id="heroLinkedin" href="#" target="_blank" rel="noopener noreferrer" data-sound><svg><use href="#i-in"/></svg>LinkedIn</a></li>
       <li><a id="heroEmail" href="mailto:farisdomain@gmail.com" data-sound><svg><use href="#i-mail"/></svg>Email</a></li>
     </ul>
-    <p class="hero-hint rise" style="--d:6"><span aria-hidden="true">›_</span> Press <kbd>/</kbd> for the console · type <code>boot xiraf</code> to enter a different world · <em>click any glass panel</em></p>
   </div>
 
-  <!-- Interactive playground (decorative) -->
-  <div class="hero-stage rise" style="--d:2">
-    <div class="stage" id="stage">
-      <div class="layer l-dots" aria-hidden="true"></div>
-      <div class="layer l-disc" style="--dx:10" aria-hidden="true"><i></i></div>
-      <div class="layer l-arch" style="--dx:-16" aria-hidden="true"></div>
-      <div class="layer l-orbit" style="--dx:22" aria-hidden="true">
-        <svg viewBox="0 0 400 400" focusable="false">
-          <circle cx="200" cy="200" r="168" fill="none" stroke="var(--cobalt)" stroke-width="1.5"/>
-          <ellipse cx="200" cy="200" rx="168" ry="74" fill="none" stroke="var(--cobalt)" stroke-width="1.5" stroke-dasharray="1 7" stroke-linecap="round" transform="rotate(-28 200 200)"/>
-          <circle cx="368" cy="200" r="4.5" fill="var(--cobalt)"/>
-          <circle cx="32" cy="200" r="3" fill="var(--cobalt)" opacity=".6"/>
-        </svg>
-      </div>
-      <div class="layer l-spin" style="--dx:34">
-        <div class="spin"><button class="sphere" id="sphere" type="button" aria-label="Boop the apricot sphere"></button></div>
-      </div>
-      <figure class="layer l-photo" id="heroPhoto" style="--dx:-26" hidden>
-        <img id="heroPhotoImg" alt="Portrait of Faris" width="120" height="138" decoding="async" referrerpolicy="no-referrer">
-        <figcaption>Me, mid-experiment</figcaption>
-      </figure>
-      <p class="stage-hint" aria-hidden="true"><span>Playground</span><span>Move · touch · boop <b id="boopCount">0</b></span></p>
+  <!-- the console, right on the page -->
+  <div class="hero-term rise" style="--d:2">
+    <div class="winchrome"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><b>faris — live console</b><span class="winhint">type or tap</span></div>
+    <div class="hero-term-body" id="heroConsole"></div>
+    <div class="chips" id="heroChips" role="group" aria-label="Suggested commands">
+      <button type="button" data-run="help">help</button>
+      <button type="button" data-run="neofetch">neofetch</button>
+      <button type="button" data-run="projects">projects</button>
+      <button type="button" data-run="accent rose">accent rose</button>
+      <button type="button" data-run="game snake">game snake</button>
+      <button type="button" data-run="boot xiraf">boot xiraf</button>
     </div>
   </div>
+  <p class="hero-hint rise" style="--d:5"><span aria-hidden="true">✦</span> Tap any glass panel three times and watch it shatter.</p>
 </section>
 
-<!-- ───────── Experience ───────── -->
-<section class="section" id="experience" aria-labelledby="expTitle">
-  <header class="sec-head reveal"><span><b>01</b> — Experience</span><span>The way I work</span></header>
+<div class="ribbon" aria-hidden="true"><div class="ribbon-track"><span>Explore</span><i>✦</i><span>Build</span><i>✦</i><span>Ship</span><i>✦</i><span>Repeat</span><i>✦</i><span>Explore</span><i>✦</i><span>Build</span><i>✦</i><span>Ship</span><i>✦</i><span>Repeat</span><i>✦</i></div></div>
 
-  <div class="exp-grid">
-    <h2 id="expTitle" class="reveal">I don’t have everything figured <em>out.</em></h2>
-    <div class="exp-copy reveal" id="about">
+<!-- ───────── About / Experience (bento) ───────── -->
+<section class="section" id="experience" aria-labelledby="expTitle">
+  <header class="sec-head reveal"><span class="num">01</span><span class="ttl">The way I work</span></header>
+  <div class="bento">
+    <article class="tile glass t-intro reveal" data-gp data-gp-key="intro" data-gp-label="Introduction" id="about">
+      <h2 id="expTitle">I don’t have everything figured <em>out.</em></h2>
       <p class="lead">That’s kind of the point. I’m learning by making things, breaking things, fixing them and trying again.</p>
       <p class="about-bio" id="aboutBio">A student exploring AI, technology, and whatever interesting thing comes next.</p>
+    </article>
+    <article class="tile glass t-p reveal" data-gp data-gp-key="principle-explore" data-gp-label="Explore"><b>01</b><h3>Explore</h3><p>Follow the questions that won’t leave me alone.</p></article>
+    <article class="tile glass t-p reveal" data-gp data-gp-key="principle-build" data-gp-label="Build"><b>02</b><h3>Build</h3><p>Turn ideas into something you can actually use.</p></article>
+    <article class="tile glass t-p reveal" data-gp data-gp-key="principle-ship" data-gp-label="Ship"><b>03</b><h3>Ship</h3><p>Stop polishing forever. Put the thing out there.</p></article>
+    <article class="tile glass t-clock reveal" data-gp data-gp-key="clock" data-gp-label="Local time">
+      <p class="kicker">Local time · India</p>
+      <p class="clock" id="clock" aria-live="off">--:--</p>
+      <p class="clock-sub" id="clockSub">Asia/Kolkata</p>
+    </article>
+    <article class="tile glass t-facts reveal" data-gp data-gp-key="facts" data-gp-label="Quick facts">
+      <dl class="facts"><div><dt>Location</dt><dd>India</dd></div><div><dt>Status</dt><dd>Student</dd></div><div><dt>Studying</dt><dd>BA Sociology</dd></div></dl>
+    </article>
+    <div class="tile-wide t-now" id="now">
+      <div class="now-head reveal"><h3>Right now<span>.</span></h3><p class="live"><i aria-hidden="true"></i>Updated live</p></div>
+      <ol class="now-list" id="experimentsList"><li class="skeleton">Loading what I’m up to…</li></ol>
     </div>
-  </div>
-
-  <ol class="principles">
-    <li class="glass reveal" data-gp data-gp-key="principle-explore" data-gp-label="Explore"><b>01</b><h3>Explore</h3><p>Follow the questions that won’t leave me alone.</p></li>
-    <li class="glass reveal" data-gp data-gp-key="principle-build" data-gp-label="Build"><b>02</b><h3>Build</h3><p>Turn ideas into something you can actually use.</p></li>
-    <li class="glass reveal" data-gp data-gp-key="principle-ship" data-gp-label="Ship"><b>03</b><h3>Ship</h3><p>Stop polishing forever. Put the thing out there.</p></li>
-  </ol>
-
-  <div class="now" id="now">
-    <div class="now-head reveal"><h3>Right now<span>.</span></h3><p class="live"><i aria-hidden="true"></i>Updated live</p></div>
-    <ol class="now-list" id="experimentsList"><li class="skeleton">Loading what I’m up to…</li></ol>
   </div>
 </section>
 
 <!-- ───────── Projects ───────── -->
 <section class="section" id="work" aria-labelledby="workTitle">
-  <header class="sec-head reveal"><span><b>02</b> — Projects</span><span>Selected work</span></header>
+  <header class="sec-head reveal"><span class="num">02</span><span class="ttl">Selected work</span></header>
   <div class="headline reveal">
     <h2 id="workTitle">Things worth <em>building.</em></h2>
     <div class="filters" id="projectFilters" role="group" aria-label="Filter projects by category"><button type="button" class="active" data-f="all" aria-pressed="true">All</button></div>
   </div>
-  <p class="panel-tip reveal"><svg aria-hidden="true"><use href="#i-spark"/></svg>Every glass panel here is its own object — click one to shatter it, click again (or press Rebuild) to put it back together.</p>
   <p class="sr-only" id="projectCount" aria-live="polite"></p>
   <div class="project-grid" id="projectGrid"><div class="skeleton">Loading projects…</div></div>
 </section>
 
 <!-- ───────── Skills ───────── -->
 <section class="section" id="skills" aria-labelledby="skillsTitle">
-  <header class="sec-head reveal"><span><b>03</b> — Skills</span><span>Current toolbox</span></header>
+  <header class="sec-head reveal"><span class="num">03</span><span class="ttl">Current toolbox</span></header>
   <div class="skills-layout">
     <div class="skills-intro reveal">
       <h2 id="skillsTitle">Tools I’m <em>learning.</em></h2>
@@ -190,7 +188,7 @@
 
 <!-- ───────── Blog ───────── -->
 <section class="section" id="thoughts" aria-labelledby="blogTitle">
-  <header class="sec-head reveal"><span><b>04</b> — Blog</span><span>Notes from the process</span></header>
+  <header class="sec-head reveal"><span class="num">04</span><span class="ttl">Notes from the process</span></header>
   <div class="headline reveal"><h2 id="blogTitle">Thinking <em>out loud.</em></h2></div>
   <div class="post-grid" id="postGrid">
     <div class="blank-page reveal"><span>No notes yet</span><p>Nothing published yet. When the first note goes live, it will land right here.</p></div>
@@ -199,10 +197,10 @@
 
 <!-- ───────── Education ───────── -->
 <section class="section" id="education" aria-labelledby="eduTitle">
-  <header class="sec-head reveal"><span><b>05</b> — Education</span><span>Where I’m learning</span></header>
+  <header class="sec-head reveal"><span class="num">05</span><span class="ttl">Where I’m learning</span></header>
   <div class="edu glass reveal" data-gp data-gp-key="education" data-gp-label="Education">
     <div class="edu-main">
-      <p class="label">Currently</p>
+      <p class="kicker">Currently</p>
       <h2 id="eduTitle">BA <em>Sociology.</em></h2>
       <p>Studying people and society, alongside my curiosity about AI and building things.</p>
     </div>
@@ -215,20 +213,26 @@
   </div>
 </section>
 
-<!-- ───────── FAQ ───────── -->
+<!-- ───────── FAQ (a conversation, not an accordion) ───────── -->
 <section class="section" id="faq" aria-labelledby="faqTitle">
-  <header class="sec-head reveal"><span><b>06</b> — FAQ</span><span>Quick answers</span></header>
-  <div class="faq-grid">
-    <h2 id="faqTitle" class="reveal">A few things you might <em>wonder.</em></h2>
-    <div class="faq-list" id="faqList"><div class="skeleton">Loading…</div></div>
+  <header class="sec-head reveal"><span class="num">06</span><span class="ttl">Quick answers</span></header>
+  <div class="headline reveal"><h2 id="faqTitle">A few things you might <em>wonder.</em></h2></div>
+  <div class="faq-stage reveal">
+    <div class="faq-rail glass" id="faqList" role="tablist" aria-orientation="vertical" aria-label="Questions"><div class="skeleton">Loading…</div></div>
+    <article class="faq-view glass" id="faqView" data-gp data-gp-key="faq-view" data-gp-label="Answer">
+      <div class="faq-top"><span class="faq-badge" id="faqBadge">Q·01</span><span class="faq-by">Faris replies</span></div>
+      <h3 id="faqQ">Pick a question</h3>
+      <div class="faq-a" id="faqA" role="tabpanel" aria-live="polite"><p>Choose a question on the left and the answer will appear here.</p></div>
+      <div class="faq-nav"><button type="button" id="faqPrev" aria-label="Previous question">← Prev</button><button type="button" id="faqNext" aria-label="Next question">Next →</button></div>
+    </article>
   </div>
 </section>
 
 <!-- ───────── Contact ───────── -->
 <section class="section section-contact" id="contact" aria-labelledby="contactTitle">
-  <div class="contact reveal" data-gp data-gp-key="contact" data-gp-label="Contact" data-gp-surface="off">
+  <div class="contact glass-xl reveal" data-gp data-gp-key="contact" data-gp-label="Contact" data-gp-surface="off">
     <div class="contact-copy">
-      <p class="label">Let’s build something</p>
+      <p class="kicker">Let’s build something</p>
       <h2 id="contactTitle">Got an idea? <em>Talk to me.</em></h2>
       <p>A project, a collaboration, a question, or just a strange idea that deserves a conversation.</p>
       <ul class="contact-links">
@@ -242,7 +246,7 @@
       <div class="field"><label for="cName">Your name</label><input id="cName" name="name" autocomplete="name" maxlength="100" required placeholder="What should I call you?"></div>
       <div class="field"><label for="cEmail">Your email</label><input id="cEmail" name="email" type="email" autocomplete="email" inputmode="email" maxlength="200" required placeholder="you@example.com"></div>
       <div class="field"><label for="cMsg">Message</label><textarea id="cMsg" name="message" rows="5" maxlength="3000" required placeholder="Tell me what’s on your mind…"></textarea></div>
-      <button class="btn btn-paper" type="submit" id="sendBtn" data-sound><span>Send message</span><svg><use href="#i-arrow"/></svg></button>
+      <button class="btn btn-primary" type="submit" id="sendBtn" data-sound><span>Send message</span><svg><use href="#i-arrow"/></svg></button>
       <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -271,7 +275,7 @@
       <button class="term-close" type="button" data-close aria-label="Close terminal"><svg><use href="#i-close"/></svg></button>
     </div>
     <div class="term-console" id="terminalConsole"></div>
-    <div class="term-status"><span>● Online</span><span>help · help games · boot xiraf · Esc to close</span></div>
+    <div class="term-status"><span>● Online</span><span>help · neofetch · accent rose · boot xiraf · Esc to close</span></div>
   </div>
 </div>
 
@@ -315,6 +319,6 @@
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script type="module" src="js/main.js?v=31"></script>
+<script type="module" src="js/main.js?v=40"></script>
 </body>
 </html>

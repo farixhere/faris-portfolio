@@ -23,12 +23,12 @@ html[data-theme=dark]{
 
 /* ── page-level transformation ─────────────────────────────────────────── */
 html.os body{overflow:hidden;background:var(--xf-bg-a)}
-html.os main,html.os .footer,html.os .topbar,html.os .ask,html.os .progress{
+html.os main,html.os .footer,html.os .topbar,html.os .dock,html.os .ask,html.os .progress{
   opacity:0;visibility:hidden;transform:scale(.985) translateY(8px);filter:blur(6px);
   transition:opacity .55s var(--ease),transform .6s var(--ease),filter .55s var(--ease),visibility 0s .6s;
 }
-html.os .ambient{opacity:0;transition:opacity .6s}
-html.os-leaving main,html.os-leaving .footer,html.os-leaving .topbar,html.os-leaving .ask,html.os-leaving .progress{transition-delay:.15s,.15s,.15s,0s}
+html.os .aurora{opacity:0;transition:opacity .6s}
+html.os-leaving main,html.os-leaving .footer,html.os-leaving .topbar,html.os-leaving .dock,html.os-leaving .ask,html.os-leaving .progress{transition-delay:.15s,.15s,.15s,0s}
 .os-booting-pad{display:none}
 
 /* ── root, wallpaper ───────────────────────────────────────────────────── */
@@ -264,7 +264,7 @@ html[data-theme=dark] .ap-dl div{background:rgba(255,255,255,.05)}
 }
 
 @media (prefers-reduced-motion:reduce){
-  html.os main,html.os .footer,html.os .topbar,html.os .ask,html.os .progress{filter:none;transform:none}
+  html.os main,html.os .footer,html.os .topbar,html.os .dock,html.os .ask,html.os .progress{filter:none;transform:none}
   .xf-ring::before{animation:none!important}
   .xf-ui{transform:none!important}
 }
