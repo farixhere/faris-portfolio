@@ -1,0 +1,15 @@
+# Faris (farixhere)
+
+> Personal portfolio of Faris, a student exploring AI, web development and technology. Projects, skills, FAQ and contact are on the homepage.
+
+## Pages
+- [Portfolio](https://farixhere.github.io/faris-portfolio/): projects, toolbox, FAQ and contact
+
+## Projects
+- Eventra (in development): festival management platform — https://github.com/farixhere/eventra
+- ECHO (in development): cinematic interactive mystery game — https://github.com/farixhere/echo-true3d
+
+## Elsewhere
+- GitHub: https://github.com/dupekingsam-code
+- Instagram: https://www.instagram.com/farixhere/
+- LinkedIn: https://www.linkedin.com/in/farishere
