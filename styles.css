@@ -15,7 +15,7 @@
   --glass-edge:rgba(255,255,255,.9); --glass-rim:rgba(40,40,120,.12);
   --glass-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 -1px 0 rgba(255,255,255,.3) inset,0 0 0 1px var(--glass-rim),0 28px 60px -28px rgba(50,40,140,.42),0 8px 18px -10px rgba(50,40,140,.2);
   --glass-shadow-hover:0 1px 0 #fff inset,0 -1px 0 rgba(255,255,255,.4) inset,0 0 0 1px var(--glass-rim),0 40px 80px -30px rgba(50,40,140,.55),0 12px 24px -12px rgba(50,40,140,.3);
-  --blur:26px; --sat:1.7;
+  --blur:18px; --sat:1.4;
   --r:20px; --r-lg:30px; --r-xl:38px;
   --display:"Bricolage Grotesque","Manrope",system-ui,sans-serif; --serif:"Instrument Serif",Georgia,serif;
   --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
@@ -63,7 +63,7 @@ html:not(.js) .reveal,html:not(.js) .rise{opacity:1;transform:none}
 .aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:
   radial-gradient(90% 70% at 15% 0%,color-mix(in srgb,var(--a1) 22%,transparent),transparent 60%),
   radial-gradient(80% 70% at 100% 100%,color-mix(in srgb,var(--a3) 20%,transparent),transparent 60%),var(--bg)}
-.au{position:absolute;border-radius:50%;filter:blur(60px);opacity:.75;will-change:transform;animation:drift 26s ease-in-out infinite alternate}
+.au{position:absolute;border-radius:50%;opacity:.75;will-change:transform;animation:drift 26s ease-in-out infinite alternate}
 .au1{width:60vmax;height:60vmax;left:-16vmax;top:-18vmax;background:radial-gradient(circle,var(--a1),transparent 66%)}
 .au2{width:52vmax;height:52vmax;right:-14vmax;top:8vh;background:radial-gradient(circle,var(--a2),transparent 66%);animation-duration:32s;animation-delay:-8s}
 .au3{width:56vmax;height:56vmax;left:12vw;bottom:-26vmax;background:radial-gradient(circle,var(--a3),transparent 66%);animation-duration:38s;animation-delay:-14s}
@@ -71,8 +71,8 @@ html:not(.js) .reveal,html:not(.js) .rise{opacity:1;transform:none}
 :root[data-theme=dark] .au{opacity:.5}
 :root[data-theme=dark] .au4{opacity:.22}
 @keyframes drift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(6vmax,4vmax,0) scale(1.12)}100%{transform:translate3d(-4vmax,8vmax,0) scale(.96)}}
-.grain{position:absolute;inset:0;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-html.is-paused .au{animation-play-state:paused}
+.grain{position:absolute;inset:0;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+html.is-paused .au,html.is-scrolling .au{animation-play-state:paused}
 
 /* ── 4. Glass primitive ────────────────────────────────────────────────── */
 .glass,.glass-xl,.pill{
@@ -92,8 +92,8 @@ html.is-paused .au{animation-play-state:paused}
 @supports not (backdrop-filter:blur(1px)){ .glass,.glass-xl,.pill{background:var(--glass-strong)} }
 
 /* ── 5. Reveal / entrance ──────────────────────────────────────────────── */
-.js .reveal{opacity:0;transform:translateY(26px) scale(.985);filter:blur(8px);transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
-.js .reveal.in{opacity:1;transform:none;filter:none}
+.js .reveal{opacity:0;transform:translateY(26px) scale(.985);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.js .reveal.in{opacity:1;transform:none}
 .js .rise{opacity:0;transform:translateY(22px);animation:rise .9s var(--ease) forwards;animation-delay:calc(var(--d,0) * 90ms + 120ms)}
 @keyframes rise{to{opacity:1;transform:none}}
 
@@ -438,7 +438,7 @@ h2 em{color:var(--accent-text);font-size:1.08em}
   .skills-intro{position:static}
 }
 @media (max-width:720px){
-  :root{--blur:16px;--dock-h:62px}
+  :root{--blur:10px;--dock-h:62px}
   .brand{height:42px;padding:0 16px 0 12px}
   .tool{width:36px;height:36px}
   .facts,.edu-facts{grid-template-columns:1fr 1fr}

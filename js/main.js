@@ -408,6 +408,9 @@ function paintSound(){
 }
 
 /* ── Boot ────────────────────────────────────────────────────────────── */
+// freeze the aurora while scrolling: the glass panels stop re-blurring a moving backdrop
+{ let t = 0; addEventListener('scroll', () => { const h = document.documentElement; h.classList.add('is-scrolling'); clearTimeout(t); t = setTimeout(() => h.classList.remove('is-scrolling'), 140); }, { passive: true }); }
+
 function start(){
   setTheme(getTheme(), false);
   paintSound();
