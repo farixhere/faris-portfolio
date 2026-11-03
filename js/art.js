@@ -62,7 +62,7 @@ export function artFor(p){
 }
 
 /* DB image_url sometimes holds a website, not a picture — only trust things that look like images. */
-export const looksLikeImage = u => /\.(png|jpe?g|webp|gif|avif|svg)(\?|#|$)/i.test(u) || /(googleusercontent|githubusercontent|supabase\.co\/storage|imgur|unsplash|cloudinary|images\.|image\.thum\.io\/get\/)/i.test(u);
+export const looksLikeImage = u => /\.(png|jpe?g|webp|gif|avif|svg)(\?|#|$)/i.test(u) || /(googleusercontent|githubusercontent|supabase\.co\/storage|imgur|unsplash|cloudinary|images\.)/i.test(u);
 
 /* Returns markup for a project's media (real image if it looks like one, otherwise designed art). */
 export function mediaFor(p, { loading = 'lazy' } = {}){
