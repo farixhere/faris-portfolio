@@ -105,3 +105,5 @@ Some live content and admin features require the configured Supabase project.
 ---
 
 Made by Faris — learning by building, and building to learn.
+## AI / search visibility
+FAQ, projects and skills are rendered by JavaScript from Supabase, which many AI crawlers can't run. `scripts/build_seo.py` copies that public content into `index.html` as JSON-LD (Person, ProfilePage, ItemList, FAQPage) and a hidden plain-HTML block, so non-JS crawlers can read it. After editing content in the admin, run `python3 scripts/build_seo.py`, commit `index.html`, push. `llms.txt` is a short machine-readable summary (an emerging, unproven convention).
