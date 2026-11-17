@@ -12,6 +12,7 @@ import { glass } from './glass.js';
 import { mountConsole } from './console.js';
 import { mountArcade } from './arcade/launcher.js';
 import { createXiraf } from './xiraf/os.js';
+import { initNova } from './nova.js';
 
 const ARROW = '<svg aria-hidden="true"><use href="#i-arrow"/></svg>';
 
@@ -292,23 +293,6 @@ function initTerminal(){
   $('#arcadeOpen')?.addEventListener('click', () => openPortfolioArcade(null));
 }
 
-/* ── Ask Faris (fixed answers — no backend connected; behaviour preserved) ── */
-function initAsk(){
-  const answers = {
-    interest: () => 'Faris is a student exploring ideas, AI and the process of turning concepts into real projects.',
-    building: () => 'Projects like ECHO (an interactive narrative game), EVENTRA (an event-organizer app) and the PROOFCHECK concept — plus this portfolio, which runs on a Supabase-backed dashboard.',
-    study: () => 'He is in the second year of a BA in Sociology at Pondicherry University.',
-    contact: () => 'Email ' + (data.profile.email || 'farisdomain@gmail.com') + ', message him on Instagram, or use the contact form below.'
-  };
-  $('#askFaris').addEventListener('click', () => openModal($('#askModal')));
-  $$('[data-question]').forEach(b => b.addEventListener('click', () => {
-    $$('[data-question]').forEach(x => x.setAttribute('aria-pressed', 'false'));
-    b.setAttribute('aria-pressed', 'true');
-    $('#askAnswer').textContent = answers[b.dataset.question]();
-    beep(560);
-  }));
-}
-
 /* ── Contact form (backend unchanged: insert into `messages`) ────────── */
 function initContact(){
   const form = $('#contactForm'), status = $('#formStatus'), btn = $('#sendBtn');
@@ -422,7 +406,7 @@ function start(){
   $('#backTop').addEventListener('click', () => scrollTo({ top: 0, behavior: reduceMotion.matches ? 'auto' : 'smooth' }));
   $('#xirafOpen')?.addEventListener('click', e => xiraf.boot({ returnFocus: e.currentTarget }));
 
-  initNav(); initTerminal(); initHeroConsole(); initAsk(); initContact(); initHeroFx(); initProjectShowcase();
+  initNav(); initTerminal(); initHeroConsole(); initNova(); initContact(); initHeroFx(); initProjectShowcase();
   glass.mountAll();                     // the static panels in index.html
   observeReveals();
 

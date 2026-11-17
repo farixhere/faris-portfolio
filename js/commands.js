@@ -40,7 +40,7 @@ define('help', {
     const sections = SECTION_NAMES.map(k => cmdBtn(k, SECTIONS[k].blurb)).join('');
     const about = [['whoami', 'a quick intro'], ['neofetch', 'system card for Faris'], ['ls', 'list the sections'], ['open <section>', 'jump to a section'], ['cat <project>', 'read a project'], ['stack', 'the current toolbox'], ['socials', 'where to find Faris'], ['contact', 'how to reach Faris']]
       .map(([c, n]) => /</.test(c) ? `<div class="term-game"><span><b>${esc(c)}</b> — ${esc(n)}</span></div>` : cmdBtn(c, n)).join('');
-    const fun = [['accent', 'recolour the glass (violet · cyan · rose · amber · mint)'], ['matrix', 'digital rain'], ['confetti', 'celebrate something'], ['coin', 'flip a coin'], ['roll', 'roll a die'], ['fortune', 'a small thought'], ['shatter', 'break the glass panels on the page'], ['rebuild', 'put them all back'], ['date', 'time check'], ['uptime', 'how long you have been here']]
+    const fun = [['accent', 'recolour the glass (cyan · violet · rose · amber · mint)'], ['matrix', 'digital rain'], ['confetti', 'celebrate something'], ['coin', 'flip a coin'], ['roll', 'roll a die'], ['fortune', 'a small thought'], ['shatter', 'break the glass panels on the page'], ['rebuild', 'put them all back'], ['date', 'time check'], ['uptime', 'how long you have been here']]
       .map(([c, n]) => cmdBtn(c, n)).join('');
     const core = [
       ['help games', 'game commands & controls'],

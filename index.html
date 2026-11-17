@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#E9E8F7">
+<meta name="theme-color" content="#E4EDF8">
 <meta name="author" content="Faris">
 <link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png">
@@ -13,10 +13,10 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://farixhere.github.io/faris-portfolio/">
-<title>FARIS — Student, exploring what’s possible</title>
-<meta name="description" content="Faris is a BA Sociology student exploring AI, web projects, and the process of turning ideas into real things.">
-<meta property="og:title" content="FARIS — Curious by nature. Building by experimenting.">
-<meta property="og:description" content="A living portfolio of experiments, projects, notes and things worth building.">
+<title>FARIS OS — Meet NOVA and the mind behind the system</title>
+<meta name="description" content="FARIS OS is the personal portfolio of Faris, a BA Sociology student exploring AI and web projects. Meet NOVA, the AI companion who guides you through the work.">
+<meta property="og:title" content="FARIS OS — Meet NOVA, your digital guide">
+<meta property="og:description" content="A personal digital operating system for the projects, ideas and experiments of Faris.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://farixhere.github.io/faris-portfolio/">
 <meta property="og:image" content="https://farixhere.github.io/faris-portfolio/assets/icon-512.png">
@@ -42,7 +42,7 @@
   d.setAttribute('data-theme',t);
   d.classList.add('js');
   var m=document.querySelector('meta[name=theme-color]');
-  if(m)m.setAttribute('content',t==='dark'?'#060714':'#E9E8F7');
+  if(m)m.setAttribute('content',t==='dark'?'#050B18':'#E4EDF8');
 })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,6 +52,9 @@
 <link rel="stylesheet" href="css/glass.css?v=41">
 <link rel="stylesheet" href="css/arcade.css?v=41">
 <link rel="stylesheet" href="css/xiraf.css?v=41">
+<link rel="stylesheet" href="css/nova.css?v=1">
+<link rel="preload" as="image" href="assets/nova-sm.webp" type="image/webp" media="(max-width:720px)">
+<link rel="preload" as="image" href="assets/nova.webp" type="image/webp" media="(min-width:721px)">
 </head>
 <body>
 
@@ -92,7 +95,10 @@
 
 <!-- ───────── Top bar: brand + quick tools ───────── -->
 <header class="topbar" id="topbar">
-  <a class="brand pill" href="#top" data-sound aria-label="Faris — back to top"><span class="brand-gem" aria-hidden="true"></span>FARIS<b>.</b></a>
+  <div class="brandwrap">
+    <a class="brand pill" href="#top" data-sound aria-label="FARIS OS — back to top"><span class="brand-gem" aria-hidden="true"></span>FARIS<b>OS</b></a>
+    <p class="sys pill" role="status"><span class="pulse" aria-hidden="true"></span><span class="sys-txt">System online</span><time id="sysClock" class="sys-clock" aria-hidden="true"></time></p>
+  </div>
   <div class="tools pill" role="toolbar" aria-label="Quick tools">
     <button id="xirafOpen" class="tool tool-os" type="button" aria-label="Boot XIRAF OS" title="Boot XIRAF OS"><svg><use href="#i-os"/></svg></button>
     <button id="arcadeOpen" class="tool" type="button" aria-label="Open the arcade" aria-haspopup="dialog" title="Arcade"><svg><use href="#i-game"/></svg></button>
@@ -106,9 +112,9 @@
   <div class="dock-links" id="navlinks">
     <a href="#top" data-sec="top"><svg aria-hidden="true"><use href="#i-home"/></svg><span>Home</span></a>
     <a href="#experience" data-sec="experience"><svg aria-hidden="true"><use href="#i-user"/></svg><span>About</span></a>
-    <a href="#work" data-sec="work"><svg aria-hidden="true"><use href="#i-layers"/></svg><span>Work</span></a>
+    <a href="#work" data-sec="work"><svg aria-hidden="true"><use href="#i-layers"/></svg><span>Projects</span></a>
     <a href="#skills" data-sec="skills"><svg aria-hidden="true"><use href="#i-chip"/></svg><span>Skills</span></a>
-    <a href="#thoughts" data-sec="thoughts"><svg aria-hidden="true"><use href="#i-pen"/></svg><span>Notes</span></a>
+    <a href="#thoughts" data-sec="thoughts"><svg aria-hidden="true"><use href="#i-pen"/></svg><span>Journal</span></a>
     <a href="#faq" data-sec="faq"><svg aria-hidden="true"><use href="#i-help"/></svg><span>FAQ</span></a>
     <a href="#contact" data-sec="contact"><svg aria-hidden="true"><use href="#i-mail"/></svg><span>Contact</span></a>
   </div>
@@ -117,32 +123,59 @@
 </nav>
 
 <main id="main">
-<!-- ───────── Hero ───────── -->
-<section class="hero" id="top" aria-labelledby="heroTitle">
-  <div class="orbs" id="orbs" aria-hidden="true"><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i></div>
+<!-- ───────── Hero: FARIS OS + NOVA ───────── -->
+<section class="hero hero-os" id="top" aria-labelledby="heroTitle">
+  <div class="os-stage" aria-hidden="true">
+    <svg class="os-rings" viewBox="0 0 600 600" focusable="false"><g fill="none" stroke="currentColor"><circle cx="300" cy="300" r="286" stroke-width="1" stroke-dasharray="2 9"/><circle cx="300" cy="300" r="236" stroke-width="1.2" stroke-dasharray="90 26 6 26"/><circle cx="300" cy="300" r="184" stroke-width="1" stroke-opacity=".7"/></g></svg>
+    <i class="os-floor"></i>
+  </div>
 
   <div class="hero-copy">
-    <p class="eyebrow pill rise" style="--d:0"><span class="pulse" aria-hidden="true"></span>Student · exploring what’s possible
-      <span class="avatar" id="heroPhoto" hidden><img id="heroPhotoImg" alt="Portrait of Faris" width="28" height="28" decoding="async" referrerpolicy="no-referrer"></span></p>
-    <h1 id="heroTitle" class="mega rise" style="--d:1" tabindex="-1">
-      <span class="ln">Curious <em>by nature.</em></span>
-      <span class="ln">Building by <span class="grad">experimenting.</span></span>
-    </h1>
-    <p class="intro rise" style="--d:2">I’m Faris — a student exploring ideas, AI, and the process of turning concepts into real projects.</p>
-    <div class="cta rise" style="--d:3">
-      <a class="btn btn-primary" href="#work" data-sound>Explore my work <svg><use href="#i-down"/></svg></a>
-      <a class="btn btn-glass" href="#experience" data-sound>More about me</a>
+    <h1 id="heroTitle" class="mega rise" style="--d:0" tabindex="-1"><span class="ln">FARIS <em>OS</em></span></h1>
+    <p class="intro rise" style="--d:1">A personal operating system for the projects, ideas and experiments of Faris — guided by NOVA, the AI companion who lives inside it.</p>
+
+    <div class="nova-say glass rise" style="--d:2" id="novaSay" role="region" aria-label="Introduction from NOVA">
+      <div class="nova-say-head">
+        <span class="nova-av" aria-hidden="true"><img src="assets/nova-head.webp" alt="" width="150" height="165" decoding="async"></span>
+        <span class="nova-id"><b>NOVA</b><small><span class="pulse" aria-hidden="true"></span>Light-core AI companion</small></span>
+        <span class="nova-say-tools">
+          <button id="novaVoice" class="nova-mini" type="button" aria-pressed="false" aria-label="Turn on NOVA’s voice" title="Voice narration (off)"><svg class="ico-off" aria-hidden="true"><use href="#i-sound-off"/></svg><svg class="ico-on" aria-hidden="true"><use href="#i-sound-on"/></svg></button>
+          <button id="novaSkip" class="nova-mini nova-skip" type="button">Skip intro</button>
+        </span>
+      </div>
+      <div class="nova-text" id="novaText" aria-hidden="true"></div>
+      <p class="sr-only" id="novaFull"></p>
     </div>
-    <ul class="socials rise" style="--d:4" aria-label="Find me elsewhere">
+
+    <div class="cta rise" style="--d:3">
+      <a class="btn btn-primary" href="#work" data-sound>Explore portfolio <svg><use href="#i-down"/></svg></a>
+      <a class="btn btn-glass" href="#experience" data-sound>Meet Faris</a>
+      <button class="btn btn-glass" type="button" id="novaHeroAsk" data-sound><svg><use href="#i-spark"/></svg>Ask NOVA</button>
+    </div>
+    <ul class="socials rise" style="--d:4" aria-label="Find Faris elsewhere">
       <li><a id="heroInstagram" href="https://www.instagram.com/farixhere/" target="_blank" rel="noopener noreferrer" data-sound><svg><use href="#i-ig"/></svg>Instagram</a></li>
       <li><a id="heroGithub" href="https://github.com/dupekingsam-code" target="_blank" rel="noopener noreferrer" data-sound><svg><use href="#i-gh"/></svg>GitHub</a></li>
       <li id="heroLinkedinItem" hidden><a id="heroLinkedin" href="#" target="_blank" rel="noopener noreferrer" data-sound><svg><use href="#i-in"/></svg>LinkedIn</a></li>
       <li><a id="heroEmail" href="mailto:farisdomain@gmail.com" data-sound><svg><use href="#i-mail"/></svg>Email</a></li>
     </ul>
+    <span id="heroPhoto" hidden><img id="heroPhotoImg" alt="" width="1" height="1"></span>
   </div>
 
+  <figure class="nova-fig" id="novaFig">
+    <div class="nova-rig" id="novaRig">
+      <img class="nova-img" src="assets/nova.webp" srcset="assets/nova-sm.webp 230w, assets/nova.webp 460w" sizes="(max-width:720px) 46vw, 36vw" width="460" height="1144" fetchpriority="high" decoding="async"
+        alt="NOVA, the light-core AI companion: a pearl-white and silver robot with glowing cyan optical sensors and a chest emblem, extending one open hand in welcome.">
+      <i class="nova-eye e1" aria-hidden="true"></i><i class="nova-eye e2" aria-hidden="true"></i>
+    </div>
+    <figcaption class="sr-only">NOVA, the AI guide of FARIS OS.</figcaption>
+  </figure>
+</section>
+
+<!-- ───────── System console (moved from the old hero; behaviour unchanged) ───────── -->
+<section class="section console-sec" id="console" aria-labelledby="consoleTitle">
+  <header class="sec-head reveal"><span class="num" aria-hidden="true">&gt;_</span><span class="ttl" id="consoleTitle">System console</span></header>
   <!-- the console, right on the page -->
-  <div class="hero-term rise" style="--d:2">
+  <div class="hero-term reveal">
     <div class="winchrome"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><b>faris — live console</b><span class="winhint">type or tap</span></div>
     <div class="hero-term-body" id="heroConsole"></div>
     <div class="chips" id="heroChips" role="group" aria-label="Suggested commands">
@@ -154,7 +187,6 @@
       <button type="button" data-run="boot xiraf">boot xiraf</button>
     </div>
   </div>
-  <p class="hero-hint rise" style="--d:5"><span aria-hidden="true">✦</span> Tap any glass panel three times and watch it shatter.</p>
 </section>
 
 <div class="ribbon" aria-hidden="true"><div class="ribbon-track"><span>Explore</span><i>✦</i><span>Build</span><i>✦</i><span>Ship</span><i>✦</i><span>Repeat</span><i>✦</i><span>Explore</span><i>✦</i><span>Build</span><i>✦</i><span>Ship</span><i>✦</i><span>Repeat</span><i>✦</i></div></div>
@@ -287,8 +319,8 @@
   <small>© 2026 Faris · Made with curiosity + caffeine.</small>
 </footer>
 
-<!-- Ask Faris -->
-<button class="ask" id="askFaris" type="button" aria-haspopup="dialog" data-sound><svg><use href="#i-spark"/></svg>Ask Faris</button>
+<!-- Ask NOVA -->
+<button class="ask nova-launch" id="askFaris" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="novaChat" data-sound><img src="assets/nova-head.webp" alt="" width="30" height="33" decoding="async"><span>Ask NOVA</span></button>
 
 <!-- Terminal -->
 <div class="modal modal-term" id="terminalModal" aria-hidden="true">
@@ -323,22 +355,23 @@
   </div>
 </div>
 
-<!-- Ask Faris -->
-<div class="modal" id="askModal" aria-hidden="true">
-  <div class="modal-box ask-box" role="dialog" aria-modal="true" aria-labelledby="askTitle">
-    <button class="close" type="button" data-close aria-label="Close Ask Faris"><svg><use href="#i-close"/></svg></button>
-    <p class="label">A small experiment</p>
-    <h2 id="askTitle">Ask <em>Faris.</em></h2>
-    <p>Pick a question. This starter assistant answers from a fixed set — no AI backend is connected yet.</p>
-    <div class="questions">
-      <button type="button" data-question="interest">What is Faris into?</button>
-      <button type="button" data-question="building">What is he building?</button>
-      <button type="button" data-question="study">What does he study?</button>
-      <button type="button" data-question="contact">How can I reach him?</button>
-    </div>
-    <div id="askAnswer" class="answer" role="status" aria-live="polite">Choose a question.</div>
-  </div>
-</div>
+<!-- NOVA chat -->
+<section class="nova-chat glass-xl" id="novaChat" role="dialog" aria-modal="false" aria-labelledby="novaChatTitle" hidden>
+  <header class="nc-head">
+    <span class="nova-av" aria-hidden="true"><img src="assets/nova-head.webp" alt="" width="150" height="165" loading="lazy" decoding="async"></span>
+    <span class="nova-id"><b id="novaChatTitle">NOVA</b><small>Answers only from this site’s own content</small></span>
+    <button class="nova-mini" id="ncExpand" type="button" aria-pressed="false" aria-label="Expand chat" title="Expand"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="nova-mini" id="ncClose" type="button" aria-label="Close chat"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+  </header>
+  <div class="nc-log" id="ncLog" role="log" aria-live="polite" aria-relevant="additions"></div>
+  <div class="nc-chips" id="ncChips" role="group" aria-label="Suggested questions"></div>
+  <form class="nc-form" id="ncForm" autocomplete="off">
+    <label class="sr-only" for="ncInput">Ask NOVA a question</label>
+    <input id="ncInput" name="q" maxlength="200" placeholder="Ask about Faris, projects, skills…" enterkeyhint="send">
+    <button class="nc-send" type="submit" aria-label="Send"><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+  </form>
+  <p class="nc-note">NOVA is a structured assistant, not a live AI model: it answers from Faris’s own portfolio content and says so when it doesn’t know.</p>
+</section>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
