@@ -1,0 +1,141 @@
+/* ==========================================================================
+   FARIS OS — NOVA hero, system bar and assistant.
+   Loads after styles.css; only adds / overrides what the redesign needs.
+   ========================================================================== */
+
+/* ── System bar ───────────────────────────────────────────────────────── */
+.brandwrap{display:flex;align-items:center;gap:8px;min-width:0}
+.brand b{margin-left:.45em;font-weight:600;color:var(--a1)}
+.sys{display:inline-flex;align-items:center;gap:9px;height:46px;padding:0 16px;font:600 .72rem var(--mono);letter-spacing:.04em;color:var(--muted);margin:0}
+.sys-clock{font-variant-numeric:tabular-nums;color:var(--fg);padding-left:9px;border-left:1px solid var(--line)}
+@media (max-width:720px){
+  .sys{height:42px;padding:0 13px}.sys-txt,.sys-clock{display:none}
+}
+
+/* ── Hero: one stage, NOVA on it ──────────────────────────────────────── */
+.hero-os{--stage-pad:clamp(96px,12vh,124px);position:relative;overflow-x:clip;min-height:100svh;max-width:1480px;margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);grid-template-rows:1fr;align-items:center;gap:clamp(8px,2vw,40px);
+  padding:var(--stage-pad) clamp(16px,5vw,72px) calc(var(--dock-h) + 40px)}
+.hero-os .hero-copy{grid-column:1;grid-row:1;position:relative;z-index:2;align-self:center}
+.hero-os .mega{font:700 clamp(3.4rem,9vw,8.2rem)/.9 var(--display);letter-spacing:-.055em;margin-bottom:22px}
+.hero-os .intro{max-width:44ch;margin-bottom:26px}
+.hero-os .cta{margin-bottom:22px}
+
+.os-stage,.nova-fig{grid-column:2;grid-row:1;align-self:stretch;position:relative;min-width:0}
+.os-stage{pointer-events:none;z-index:0;display:grid;place-items:center}
+.os-stage::before{content:"";position:absolute;inset:6% -8% 0;background:radial-gradient(closest-side,color-mix(in srgb,var(--a2) 42%,transparent),transparent 72%);opacity:.7}
+:root[data-theme=dark] .os-stage::before{opacity:1;background:radial-gradient(closest-side,color-mix(in srgb,var(--a1) 50%,transparent),color-mix(in srgb,var(--a3) 14%,transparent) 55%,transparent 74%)}
+.os-rings{position:absolute;width:min(112%,760px);aspect-ratio:1;left:50%;top:44%;translate:-50% -50%;color:color-mix(in srgb,var(--a1) 62%,transparent);animation:ringspin 90s linear infinite}
+.os-rings circle:nth-child(2){transform-origin:300px 300px;animation:ringspin 60s linear infinite reverse}
+@keyframes ringspin{to{rotate:360deg}}
+.os-floor{position:absolute;left:50%;bottom:0;translate:-50% 0;width:78%;height:9%;border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--a2) 55%,transparent),color-mix(in srgb,var(--a1) 20%,transparent) 55%,transparent 75%);filter:blur(2px);opacity:.9}
+
+.nova-fig{z-index:1;display:grid;place-items:end center;min-height:clamp(440px,76svh,980px)}
+.nova-rig{position:relative;height:100%;max-height:min(80svh,980px);aspect-ratio:460/1144;
+  transform:translate3d(calc(var(--nx,0) * 10px),calc(var(--ny,0) * 4px),0) rotate(calc(var(--nx,0) * .8deg));will-change:transform}
+.nova-img{position:relative;width:100%;height:100%;object-fit:contain;object-position:bottom center;
+  filter:drop-shadow(0 34px 38px color-mix(in srgb,var(--a1) 34%,transparent)) drop-shadow(0 0 22px color-mix(in srgb,var(--a2) 22%,transparent));
+  animation:novaidle 7s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes novaidle{50%{transform:translateY(-7px) scale(1.004)}}
+/* sensor glow sits on the eyes of the artwork (coordinates measured on the cut-out) */
+.nova-eye{position:absolute;top:6.6%;width:9%;aspect-ratio:1.5;translate:-50% -50%;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(closest-side,rgba(120,240,255,.95),rgba(40,200,255,.45) 55%,transparent 75%);opacity:.55;animation:eyepulse 4.2s ease-in-out infinite}
+.nova-eye.e1{left:52%}.nova-eye.e2{left:62%;animation-delay:-.3s}
+@keyframes eyepulse{0%,100%{opacity:.35}45%{opacity:.8}52%{opacity:.25}58%{opacity:.8}}
+
+/* ── NOVA's introduction panel ────────────────────────────────────────── */
+.nova-say{max-width:540px;padding:18px 20px 20px;border-radius:var(--r-lg);margin-bottom:22px}
+.nova-say-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.nova-av{flex:none;width:44px;height:44px;border-radius:50%;overflow:hidden;display:grid;place-items:end center;
+  background:radial-gradient(circle at 50% 30%,#fff,color-mix(in srgb,var(--a2) 40%,#dbe8f7));border:1px solid var(--glass-edge);box-shadow:0 6px 16px -8px var(--a1)}
+.nova-av img{width:92%;height:auto;margin-top:6px}
+.nova-id{display:grid;gap:1px;min-width:0;line-height:1.25}
+.nova-id b{font:700 .95rem var(--display);letter-spacing:.14em}
+.nova-id small{display:flex;align-items:center;gap:8px;font:500 .68rem var(--mono);letter-spacing:.04em;color:var(--muted)}
+.nova-id small .pulse{width:7px;height:7px}
+.nova-say-tools{margin-left:auto;display:flex;align-items:center;gap:6px}
+.nova-mini{display:inline-grid;place-items:center;min-width:38px;height:38px;padding:0 10px;border-radius:999px;font:600 .72rem var(--mono);color:var(--fg);
+  background:var(--glass-flat);border:1px solid var(--glass-edge);transition:background-color .2s,transform .25s var(--ease)}
+.nova-mini svg{width:18px;height:18px}
+.nova-mini:hover{background:color-mix(in srgb,var(--a1) 20%,transparent);transform:translateY(-1px)}
+.nova-mini[aria-pressed=true]{color:var(--a1);background:color-mix(in srgb,var(--a1) 16%,transparent)}
+.nova-mini .ico-on{display:none}.nova-mini[aria-pressed=true] .ico-on{display:block}.nova-mini[aria-pressed=true] .ico-off{display:none}
+.nova-text{min-height:7.6em;display:grid;gap:3px;align-content:start;font:500 1.02rem/1.5 var(--sans)}
+.nova-text p{margin:0}
+.nova-text .nl-lead{font:700 1.3rem/1.3 var(--display);letter-spacing:-.02em;color:var(--accent-text);margin-bottom:4px}
+.nova-text:not(.done) p:last-child::after{content:"";display:inline-block;width:2px;height:1em;margin-left:3px;vertical-align:-.12em;background:var(--a1);animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+
+/* ── Console section (moved out of the hero) ──────────────────────────── */
+.console-sec{padding-top:clamp(48px,8vh,96px)}
+.console-sec .hero-term{max-width:980px;margin-inline:auto}
+
+/* ── NOVA launcher + chat ─────────────────────────────────────────────── */
+.nova-launch{padding:0 20px 0 6px;gap:10px;background:linear-gradient(135deg,var(--a1),color-mix(in srgb,var(--a3) 70%,var(--a1)))}
+.nova-launch img{width:34px;height:34px;object-fit:contain;object-position:bottom;border-radius:50%;background:radial-gradient(circle at 50% 30%,#fff,#cfe6f7);padding:3px 3px 0}
+.nova-launch.is-open{transform:none}
+
+.nova-chat{position:fixed;right:clamp(12px,3vw,28px);bottom:calc(var(--dock-h) + 36px + 58px);z-index:890;display:flex;flex-direction:column;
+  width:min(390px,calc(100vw - 24px));height:min(540px,calc(100dvh - var(--dock-h) - 150px));border-radius:var(--r-lg);overflow:hidden;
+  background:var(--glass-strong);border:1px solid var(--glass-edge);box-shadow:var(--glass-shadow-hover);-webkit-backdrop-filter:blur(26px) saturate(1.5);backdrop-filter:blur(26px) saturate(1.5);
+  transform-origin:100% 100%;animation:chatin .35s var(--ease)}
+.nova-chat[hidden]{display:none}
+.nova-chat.big{width:min(600px,calc(100vw - 24px));height:min(760px,calc(100dvh - var(--dock-h) - 120px))}
+@keyframes chatin{from{opacity:0;transform:translateY(14px) scale(.97)}}
+.nc-head{display:flex;align-items:center;gap:10px;padding:12px 12px 12px 14px;border-bottom:1px solid var(--line)}
+.nc-head .nova-id{flex:1}
+.nc-log{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.nc-msg{max-width:88%;padding:10px 14px;border-radius:18px;font-size:.9rem;line-height:1.5;overflow-wrap:anywhere}
+.nc-msg p{margin:0}
+.nc-msg.bot{align-self:flex-start;border-bottom-left-radius:6px;background:var(--glass-flat);border:1px solid var(--glass-edge)}
+.nc-msg.me{align-self:flex-end;border-bottom-right-radius:6px;color:#fff;background:linear-gradient(135deg,var(--a1),color-mix(in srgb,var(--a3) 70%,var(--a1)))}
+.nc-msg.err{border-color:color-mix(in srgb,#ff6b6b 60%,transparent)}
+.nc-acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.nc-act{display:inline-flex;align-items:center;min-height:34px;padding:0 13px;border-radius:999px;font:600 .72rem var(--mono);color:var(--accent-text);background:color-mix(in srgb,var(--a1) 14%,transparent);border:1px solid color-mix(in srgb,var(--a1) 32%,transparent);transition:background-color .2s}
+.nc-act:hover{background:color-mix(in srgb,var(--a1) 26%,transparent)}
+.dots{display:inline-flex;gap:5px;padding:4px 2px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:dot 1s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,60%,100%{opacity:.3;transform:none}30%{opacity:1;transform:translateY(-3px)}}
+.nc-chips{display:flex;gap:6px;padding:0 14px 10px;overflow-x:auto;scrollbar-width:none;flex:none}
+.nc-chips::-webkit-scrollbar{display:none}
+.nc-chips button{flex:none;min-height:36px;padding:0 13px;border-radius:999px;font:600 .74rem var(--sans);background:var(--glass-flat);border:1px solid var(--glass-edge);white-space:nowrap;transition:background-color .2s}
+.nc-chips button:hover{background:color-mix(in srgb,var(--a1) 18%,transparent)}
+.nc-form{display:flex;gap:8px;padding:0 12px 10px}
+.nc-form input{flex:1;min-width:0;min-height:46px;padding:0 16px;border-radius:999px;background:var(--glass-flat);border:1px solid var(--glass-edge);font-size:16px}
+.nc-form input::placeholder{color:var(--muted)}
+.nc-send{flex:none;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;color:#fff;background:linear-gradient(135deg,var(--a1),var(--a3));transition:transform .25s var(--ease)}
+.nc-send:hover{transform:scale(1.06)}
+.nc-send svg{width:18px;height:18px}
+.nc-note{padding:0 16px 12px;font:500 .66rem/1.45 var(--mono);color:var(--muted)}
+.nova-chat :focus-visible,.nova-say :focus-visible{outline:2px solid var(--a1);outline-offset:2px}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width:1040px){
+  .hero-os{grid-template-columns:1fr;grid-template-rows:auto auto;min-height:auto;padding-top:calc(var(--stage-pad) - 20px);gap:0}
+  .os-stage,.nova-fig{grid-column:1;grid-row:1}
+  .hero-os .hero-copy{grid-column:1;grid-row:2;margin-top:-6vh}
+  .nova-fig{min-height:0;height:min(64svh,620px);justify-self:center}
+  .nova-rig{max-height:none}
+  .hero-os .mega{font-size:clamp(3rem,13vw,6rem)}
+  .nova-say{max-width:none}
+}
+@media (max-width:720px){
+  .hero-os{padding-inline:14px}
+  .nova-fig{height:min(56svh,520px)}
+  .nova-say-head{gap:9px}
+  .nova-skip{padding:0 12px}
+  .nova-text{min-height:9em;font-size:.98rem}
+  .nova-chat,.nova-chat.big{left:10px;right:10px;width:auto;bottom:calc(var(--dock-h) + 30px + 56px);height:min(68dvh,calc(100dvh - var(--dock-h) - 140px));max-height:none}
+  .nova-launch span{display:none}.nova-launch{padding:0 6px}
+  .nc-note{display:none}
+}
+@media (max-height:640px) and (min-width:1041px){ .nova-rig{max-height:78svh} }
+
+/* ── Reduced motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion:reduce){
+  .os-rings,.os-rings circle,.nova-img,.nova-eye,.nova-chat{animation:none!important}
+  .nova-rig{transform:none!important}
+  .nova-text:not(.done) p:last-child::after{animation:none}
+}

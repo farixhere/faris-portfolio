@@ -7,14 +7,14 @@
 
 /* ── 1. Tokens ─────────────────────────────────────────────────────────── */
 :root{
-  --a1:#6D5CFF; --a2:#2BC4FF; --a3:#FF6FB5; --a4:#FFB46B;               /* aurora hues */
-  --bg:#E9E8F7; --fg:#12122B; --muted:#4A4B70; --line:rgba(30,30,90,.14); --line-strong:rgba(30,30,90,.34);
+  --a1:#0A9ED8; --a2:#5FE0FF; --a3:#6F8CFF; --a4:#BFEBFF;               /* aurora hues */
+  --bg:#E4EDF8; --fg:#0B1530; --muted:#41567A; --line:rgba(15,40,95,.14); --line-strong:rgba(15,40,95,.34);
   --accent:var(--a1); --accent-text:color-mix(in srgb,var(--a1) 62%,#0a0a30); --accent-2:var(--a2); --cobalt:var(--a1);
   --glass:linear-gradient(135deg,rgba(255,255,255,.62),rgba(255,255,255,.22));
   --glass-strong:rgba(255,255,255,.82); --glass-flat:rgba(255,255,255,.5);
-  --glass-edge:rgba(255,255,255,.9); --glass-rim:rgba(40,40,120,.12);
-  --glass-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 -1px 0 rgba(255,255,255,.3) inset,0 0 0 1px var(--glass-rim),0 28px 60px -28px rgba(50,40,140,.42),0 8px 18px -10px rgba(50,40,140,.2);
-  --glass-shadow-hover:0 1px 0 #fff inset,0 -1px 0 rgba(255,255,255,.4) inset,0 0 0 1px var(--glass-rim),0 40px 80px -30px rgba(50,40,140,.55),0 12px 24px -12px rgba(50,40,140,.3);
+  --glass-edge:rgba(255,255,255,.9); --glass-rim:rgba(20,60,130,.13);
+  --glass-shadow:0 1px 0 rgba(255,255,255,.95) inset,0 -1px 0 rgba(255,255,255,.3) inset,0 0 0 1px var(--glass-rim),0 28px 60px -28px rgba(20,70,150,.40),0 8px 18px -10px rgba(20,70,150,.2);
+  --glass-shadow-hover:0 1px 0 #fff inset,0 -1px 0 rgba(255,255,255,.4) inset,0 0 0 1px var(--glass-rim),0 40px 80px -30px rgba(20,70,150,.52),0 12px 24px -12px rgba(20,70,150,.3);
   --blur:18px; --sat:1.4;
   --r:20px; --r-lg:30px; --r-xl:38px;
   --display:"Bricolage Grotesque","Manrope",system-ui,sans-serif; --serif:"Instrument Serif",Georgia,serif;
@@ -24,17 +24,18 @@
   color-scheme:light;
 }
 :root[data-theme=dark]{
-  --bg:#060714; --fg:#F1F1FF; --muted:#B3B5DA; --line:rgba(255,255,255,.14); --line-strong:rgba(255,255,255,.32);
+  --bg:#050B18; --fg:#EAF3FF; --muted:#A3B8D9; --line:rgba(255,255,255,.14); --line-strong:rgba(255,255,255,.32);
   --accent-text:color-mix(in srgb,var(--a1) 55%,#fff);
   --glass:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.04));
-  --glass-strong:rgba(26,27,60,.78); --glass-flat:rgba(255,255,255,.07);
+  --glass-strong:rgba(12,26,52,.78); --glass-flat:rgba(255,255,255,.07);
   --glass-edge:rgba(255,255,255,.2); --glass-rim:rgba(0,0,0,.5);
   --glass-shadow:0 1px 0 rgba(255,255,255,.2) inset,0 -1px 0 rgba(255,255,255,.04) inset,0 0 0 1px var(--glass-rim),0 30px 60px -26px rgba(0,0,0,.85),0 8px 18px -10px rgba(0,0,0,.6);
   --glass-shadow-hover:0 1px 0 rgba(255,255,255,.28) inset,0 0 0 1px var(--glass-rim),0 44px 80px -28px rgba(0,0,0,.95),0 12px 24px -12px rgba(0,0,0,.7);
   color-scheme:dark;
 }
 /* accent palettes (console: accent rose …) */
-:root[data-accent=cyan]{--a1:#0FA8E0;--a2:#4DF0C3;--a3:#7B8CFF;--a4:#9CF2FF}
+:root[data-accent=cyan]{--a1:#0A9ED8;--a2:#5FE0FF;--a3:#6F8CFF;--a4:#BFEBFF}
+:root[data-accent=violet]{--a1:#6D5CFF;--a2:#2BC4FF;--a3:#FF6FB5;--a4:#FFB46B}
 :root[data-accent=rose]{--a1:#F0306F;--a2:#FF9A62;--a3:#A95BFF;--a4:#FFC1D6}
 :root[data-accent=amber]{--a1:#F28A00;--a2:#FFD25E;--a3:#FF5F6D;--a4:#FFE6A8}
 :root[data-accent=mint]{--a1:#12B886;--a2:#4FDDFF;--a3:#8AFF9E;--a4:#B5FFE1}

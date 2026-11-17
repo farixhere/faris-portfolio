@@ -5,17 +5,17 @@
    ========================================================================== */
 import { reduceMotion, store } from './util.js';
 
-export const ACCENTS = ['violet', 'cyan', 'rose', 'amber', 'mint'];
+export const ACCENTS = ['cyan', 'violet', 'rose', 'amber', 'mint'];
 
 export function setAccent(name, persist = true){
   const root = document.documentElement;
-  if (!name || name === 'reset' || name === 'default'){ root.removeAttribute('data-accent'); if (persist) store.set('faris-accent', ''); return 'violet'; }
+  if (!name || name === 'reset' || name === 'default'){ root.removeAttribute('data-accent'); if (persist) store.set('faris-accent', ''); return 'cyan'; }
   if (!ACCENTS.includes(name)) return null;
   root.setAttribute('data-accent', name);
   if (persist) store.set('faris-accent', name);
   return name;
 }
-export const getAccent = () => document.documentElement.getAttribute('data-accent') || 'violet';
+export const getAccent = () => document.documentElement.getAttribute('data-accent') || 'cyan';
 
 let rain = null;
 export function matrix(ms = 6000){
